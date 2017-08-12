@@ -26,7 +26,7 @@ class TransformerNet(torch.nn.Module):
         if skiplayer is not 0:
             self.mergeconv = ConvLayer(2 * reschannel, reschannel, 3, 1)
 
-        '''暂时只skip一次
+        '''暂时只skip一次，用不上下面
         if self.skiplayer > 0:
             self.mergeconv = torch.nn.ModuleList()
             for latter in range(resblock_num // 2, resblock_num, 1):
