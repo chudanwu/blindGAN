@@ -1,7 +1,9 @@
 import math
-import numpy as np
-import cv2
+
 import PIL
+import cv2
+import numpy as np
+
 
 # 生成卷积核和锚点
 def motion_kernel(length, angle):
@@ -62,4 +64,31 @@ def gauss_blur(img,sigma,kernel=5):
     img =  cv2.GaussianBlur(np.array(img),(kernel,kernel),sigma)
     return PIL.Image.fromarray(img)
 
-#原先用 from PIL import Image,ImageFilter
+def psf_blur(origimg,psfnp,size):
+
+    # in:
+    #   origimg: PIL Image
+    #   psfnp: numpy kernel 0-255
+
+    # out:
+    #   psfnp: numpy norm kernel 0-?
+    #   blurimg: PIL Image
+
+    # normalize psf
+    psfnp /= 255
+    psfnp /= psfnp.sum()
+    # conv2d:  orig np img conv with float normkernel
+    blur = cv2.filter2D(np.array(origimg).astype(np.float32),-1,psfnp)
+    # blur result turn back to PIL Image
+    blur = PIL.Image.fromarray( blur.astype(np.uint8))
+
+    h, w = size
+    blur = blur.crop((0, 0, h - h % 4, w - w % 4))
+
+    if size is not None:
+        blur = blur.resize((size, size), origimg.ANTIALIAS)
+    return psfnp,blur
+
+
+
+    #原先用 from PIL import Image,ImageFilter

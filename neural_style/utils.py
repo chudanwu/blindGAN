@@ -1,17 +1,20 @@
-import torch
-from PIL import Image,ImageFilter
-from torch.autograd import Variable
-import torch.utils.data as data
 import os
 import os.path
+
 import filters
 import numpy
-import time
+import torch
+import torch.utils.data as data
+from PIL import Image
+from torch.autograd import Variable
+from torchvision import transforms
 
 IMG_EXTENSIONS = [
     '.jpg', '.JPG', '.jpeg', '.JPEG',
     '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP',
 ]
+
+
 
 
 def is_image_file(filename):
@@ -90,7 +93,7 @@ class trainingFolder(data.Dataset):
 
     def __init__(self, root, HR_size, LR_scale=None,
                  motion_len=None,motion_angel=None,gauss=None,
-                 transform=None, target_transform=None,loader=load_HR_image,mode='Y'):
+                 transform=None, target_transform=None, loader=load_HR_image,mode='Y'):
         super(trainingFolder,self).__init__()
         self.loader = loader
         if motion_len is not None and motion_angel is not None:
@@ -108,9 +111,9 @@ class trainingFolder(data.Dataset):
                 IMG_EXTENSIONS)))
     def __getitem__(self, index):
         path = self.imgs[index]
-        #training img--content
+        # training img--content
         img = self.loader(path,self.HR_size,mode=self.mode)
-        #target img--reference
+        # target img--reference
         target = HR2LR(img,self.motion_kernel,self.motion_anchor,self.gauss,self.LR_scale)
 
         if self.transform is not None:
@@ -160,41 +163,68 @@ class BMVCFolder(data.Dataset):
 class BMVC_blur_psf_orig_Folder(data.Dataset):
 
     def __init__(self, root, HR_size, LR_scale=None,
-                 transform=None, target_transform=None,loader=load_HR_image,mode='L'):
+                 transform=None,loader=load_HR_image,mode='L'):
         super(BMVCFolder,self).__init__()
         self.loader = loader
 
         self.HR_size = HR_size
         self.LR_scale = LR_scale
         self.mode=mode
-        self.transform = transform
-        self.target_transform = target_transform
+        self.imgtotensor=transforms.Compose([transforms.ToTensor(),transforms.Lambda(lambda x_HR: x_HR.mul(255))])
         self.dir = root
         self.imgs = make_dataset(root)
+
         if len(self.imgs ) == 0:
             raise (RuntimeError("Found 0 images in subfolders of: " + root + "\n"
                                                                              "Supported image extensions are: " + ",".join(
                 IMG_EXTENSIONS)))
+
     def __getitem__(self, index):
+
         imgdir = self.dir + "/" + str(index).zfill(7)
-        #training img--content
-        blur = self.loader(imgdir+"_blur.png",self.HR_size,mode=self.mode)
-        #target img--reference
-        orig = self.loader(imgdir+"_orig.png",self.HR_size,mode=self.mode)
-        psf = self.psfloader(imgdir+"_psf.png")
 
-        if self.transform is not None:
-            blur = self.transform(blur)
-            orig = self.transform(orig)
-            psf = self.transform(psf)
+        orig = self.load_orig(imgdir+"_orig.png",self.size,mode=self.mode)
+        psf = self.load_psf(imgdir+"_psf.png")
+        normpsf,blur = filters.psf_blur(origimg=orig,psfnp=psf,size=self.size)
 
-        return psf,orig,blur
+        blur = self.imgtotensor(blur)
+        orig = self.imgtotensor(orig)
+        normpsf = self.psftotensor(normpsf)
 
-    def psfloader(self,filename):
-        maxsize = 29
-        img = Image.open(filename).convert('L')
-        padimg = numpy.pad(numpy.array(img), (maxsize-img.size[0])//2, 'constant')
-        return Image.fromarray(padimg,'L')
+        return blur,normpsf,orig
+
+    def load_psf(self,filename,maxsize=29):
+
+        # input: img path
+        # oputput: padded np kernel 0-255
+        kernel = Image.open(filename).convert('L')
+        padkernel = numpy.pad(numpy.array(kernel), (maxsize-kernel.size[0])//2, 'constant')
+        return padkernel
+
+    def load_orig(self,filename, size=None, mode='L'):
+
+        # input: img path
+        # output: PIL img
+        if mode is 'Y':
+            y, cb, cr = Image.open(filename).convert('YCbCr').split()
+            img = y
+        elif mode is 'L':
+            img = Image.open(filename).convert('L')
+        elif mode is 'RGB':
+            img = Image.open(filename).convert('RGB')
+        elif mode is 'YCbCr':
+            img = Image.open(filename).convert('YCbCr')
+
+        h, w = img.size
+        img = img.crop((0, 0, h - h % 4, w - w % 4))
+
+        if size is not None:
+            img = img.resize((size, size), Image.ANTIALIAS)
+        return img
+
+    def psftotensor(self,psf):
+        return torch.from_numpy(psf.astype(numpy.float32)).squeeze(0)
+
 
 
     def __len__(self):
