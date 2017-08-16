@@ -1,5 +1,7 @@
-
+.vscode
 images
 .ipynb_checkpoints
+*.xml
 *.pth
 *.model
+*.pyc

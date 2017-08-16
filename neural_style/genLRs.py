@@ -119,7 +119,7 @@ for img in os.listdir(refdir):
             sr = utils.unnormalize_batch(sr)
         sr = sr.cpu().data.squeeze(0)
         save_image(srIMGdir,sr,mode)
-        SRPSNR = psnr(sr.squeeze(0).numpy(),np.array(hrIMG))
-        LRPSNR = psnr(lr.data.cpu().squeeze(0).numpy(), np.array(hrIMG))
+        SRPSNR = psnr(sr.squeeze(0).clamp(0,255).numpy(),np.array(hrIMG))
+        LRPSNR = psnr(lr.data.cpu().squeeze(0).squeeze(0).clamp(0,255).numpy(), np.array(hrIMG))
         print("|"+img+"\t |{:.6f}\t|{:.6f}|".format(LRPSNR,SRPSNR-LRPSNR))
 
