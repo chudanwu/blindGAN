@@ -10,7 +10,7 @@ import filters
 
 torch.cuda.set_device(1)
 norm_flag = False
-make_lr_flag = True
+make_lr_flag = False
 
 refdir = "/home/wcd/Projects/Pytorch-examples/fast_neural_style/images/style-images"
 lrdir = "/home/wcd/Projects/Pytorch-examples/fast_neural_style/images/style-images/SR"
@@ -30,7 +30,7 @@ motion_len = opt.motion_len
 
 motion_angel = opt.motion_angel
 
-gauss = 0#opt.gauss
+gauss = opt.gauss
 
 motion_kernel,motion_anchor = filters.motion_kernel(motion_len,motion_angel)
 
@@ -94,6 +94,8 @@ def save_image(filename, data, mode):
 
 print("save dir: "+outdir)
 
+print("|img-name \t|blurPSNR | PSNR |")
+
 for img in os.listdir(refdir):
     hrIMGdir = os.path.join(refdir, img)
     if make_lr_flag is True:
@@ -119,5 +121,5 @@ for img in os.listdir(refdir):
         save_image(srIMGdir,sr,mode)
         SRPSNR = psnr(sr.squeeze(0).numpy(),np.array(hrIMG))
         LRPSNR = psnr(lr.data.cpu().squeeze(0).numpy(), np.array(hrIMG))
-        print("save: "+img+"\t LRPSNR: {:.6f} \t SRPSNR: {:.6f}".format(LRPSNR,SRPSNR))
+        print("|"+img+"\t |{:.6f}\t|{:.6f}|".format(LRPSNR,SRPSNR-LRPSNR))
 
