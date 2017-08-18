@@ -6,7 +6,7 @@ class GNet(torch.nn.Module):
     '''
     GNet for generate similar context and same size(channel,height,width)
     '''
-    def __init__(self, mode='RGB',resblock_num=8,skiplayer = 1,norm_mode = 'IN',deconv_mode='PS',bottle_scale=2):
+    def __init__(self, mode='RGB',resblock_num=8,skiplayer = 1,norm_mode = 'IN',deconv_mode='PS',bottle_scale=2,dropout=None):
         super(GNet, self).__init__()
         if mode is 'Y' or mode is 'L':
             channel = 1
@@ -15,7 +15,7 @@ class GNet(torch.nn.Module):
 
         # Residual layers
         reschannel = 64
-        self.resblocks = torch.nn.ModuleList([ResidualBlock(reschannel,norm_mode=norm_mode) for resblock in range(resblock_num)])
+        self.resblocks = torch.nn.ModuleList([ResidualBlock(reschannel,norm_mode=norm_mode,drop_out=dropout) for resblock in range(resblock_num)])
 
         self.encoder = EncoderBlock(channel,reschannel,downscale=bottle_scale,norm_mode=norm_mode)
         self.decoder = DecoderBlock(reschannel,channel,upscale=bottle_scale,norm_mode=norm_mode,deconv_mode=deconv_mode)
@@ -54,7 +54,7 @@ class GpsfNet():
         GNet for generate unnorm psf of certain size(1x29x29), value in (0,1)
         '''
 
-    def __init__(self, mode='RGB', out_c=1,resblock_num=8, downscale=2,norm_mode='IN'):
+    def __init__(self, mode='RGB', out_c=1,resblock_num=8, downscale=2,norm_mode='IN',drop_out=None):
         super(GpsfNet, self).__init__()
         if mode is 'Y' or mode is 'L':
             in_c = 1
@@ -65,7 +65,7 @@ class GpsfNet():
         # Residual layers
         reschannel = 64
         self.resblocks = torch.nn.ModuleList(
-            [ResidualBlock(reschannel, norm_mode=norm_mode) for resblock in range(resblock_num)])
+            [ResidualBlock(reschannel, norm_mode=norm_mode,drop_out=drop_out) for resblock in range(resblock_num)])
 
         self.encoder = EncoderBlock(in_c, reschannel, downscale=downscale, norm_mode=norm_mode)
         self.activelayer =torch.nn.Sequential(
@@ -205,16 +205,20 @@ class ResidualBlock(torch.nn.Module):
         introduced in: https://arxiv.org/abs/1512.03385
         recommended architecture: http://torch.ch/blog/2016/02/04/resnets.html
     """
-    def __init__(self, channels, norm_mode=None):
+    def __init__(self, channels, norm_mode=None, drop_out=None):
         super(ResidualBlock, self).__init__()
         self.conv1 = ConvLayer(channels, channels, kernel_size=3, stride=1)
         self.conv2 = ConvLayer(channels, channels, kernel_size=3, stride=1)
         self.relu = torch.nn.ReLU()
         self.norm_flag = False
+        self.dropout_flag =False
         if norm_mode is not None:
             self.norm1 = create_norm_layer(channels, norm_mode=norm_mode)
             self.norm2 = create_norm_layer(channels, norm_mode=norm_mode)
             self.norm_flag = True
+        if drop_out is not None:
+            self.dropout = torch.nn.Dropout2d(drop_out)
+            self.dropout_flag = True
 
     def forward(self, x):
 
@@ -222,6 +226,8 @@ class ResidualBlock(torch.nn.Module):
         if self.norm_flag:
             out = self.norm1(out)
         out = self.relu(out)
+        if self.dropout_flag:
+            out = self.dropout(out)
         out = self.conv2(out)
         if self.norm_flag:
             out = self.norm2(out)
@@ -354,3 +360,11 @@ def create_norm_layer(channel,norm_mode='IN'):
     else:
         raise NotImplementedError('normalization layer [%s] is not found' % norm_mode)
     return norm_layer
+
+
+def gram_matrix(y):
+    (b, ch, h, w) = y.size()
+    features = y.view(b, ch, w * h)
+    features_t = features.transpose(1, 2)
+    gram = features.bmm(features_t) / (ch * h * w)
+    return gram

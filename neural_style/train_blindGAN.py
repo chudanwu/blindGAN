@@ -1,226 +1,266 @@
-import numpy as np
-import torch
+
+import time
 import os
+import torch.nn.functional as F
+import torch
+import  torch.nn as nn
 from collections import OrderedDict
 from torch.autograd import Variable
-import itertools
-import util.util as util
-from util.image_pool import ImagePool
-from .base_model import BaseModel
-from . import networks
-import sys
+from torch.utils.data import DataLoader
+from .utils import print_params_num, ImagePool, tensor2im
+from . import draw
+from .dataFolder import BMVC_blur_psf_orig_Folder
+from . import models
+from .options import Option
 
+loss_dict = {'mse':nn.MSELoss, 'l1':nn.L1Loss, 'bce':nn.BCELoss}
+channel_of_colormode = {'L':1,'Y':1,'RGB':3}
 
-def train(opt):
-
-
-
-class CycleGANModel(BaseModel):
+# blindGAN trainer
+class blindGAN():
     def name(self):
-        return 'CycleGANModel'
+        return 'blindGAN'
 
     def initialize(self, opt):
-        BaseModel.initialize(self, opt)
 
-        nb = opt.batchSize
-        size = opt.fineSize
-        self.input_A = self.Tensor(nb, opt.input_nc, size, size)
-        self.input_B = self.Tensor(nb, opt.output_nc, size, size)
+        self.isTrain = True
+        self.opt = opt
+        if self.opt.cudaid is not None:
+            torch.cuda.set_device(self.opt.cudaid)
+
+        # define tensors in/not in cuda
+        self.Tensor = torch.cuda.FloatTensor if opt.cudaid else torch.FloatTensor
+        self.input_blur = self.Tensor(opt.batch_size,channel_of_colormode[opt.color_mode],
+                                   opt.img_size,opt.img_size)
+        self.input_orig = self.input_blur.clone()
+        self.input_psf = self.Tensor(opt.batch_size, 1,opt.psf_size, opt.psf_size)
+        self.input_id_psf = self.input_psf.clone()
+        self.set_identity_psf(self.input_id_psf)
 
         # load/define networks
-        # The naming conversion is different from those used in the paper
-        # Code (paper): G_A (G), G_B (F), D_A (D_Y), D_B (D_X)
+        self.netG = models.GpsfNet(mode=opt.color_mode, out_c=1,resblock_num=opt.G_block_num,
+                                   downscale=opt.G_bottle_scale,norm_mode=opt.G_norm_mode,dropout=opt.dropout)
+        if self.opt.cudaid is not 0:
+            self.netD = self.netG.cuda()
 
-        # return model with init done
-        self.netG_A = networks.define_G(opt.input_nc, opt.output_nc,
-                                        opt.ngf, opt.which_model_netG, opt.norm, not opt.no_dropout, self.gpu_ids)
-        self.netG_B = networks.define_G(opt.output_nc, opt.input_nc,
-                                        opt.ngf, opt.which_model_netG, opt.norm, not opt.no_dropout, self.gpu_ids)
-
-        if self.isTrain:
-            use_sigmoid = opt.no_lsgan
-            self.netD_A = networks.define_D(opt.output_nc, opt.ndf,
-                                            opt.which_model_netD,
-                                            opt.n_layers_D, opt.norm, use_sigmoid, self.gpu_ids)
-            self.netD_B = networks.define_D(opt.input_nc, opt.ndf,
-                                            opt.which_model_netD,
-                                            opt.n_layers_D, opt.norm, use_sigmoid, self.gpu_ids)
-
-        # continue training or test, both need to reload Generator weights
-        if not self.isTrain or opt.continue_train:
-            which_epoch = opt.which_epoch
-            self.load_network(self.netG_A, 'G_A', which_epoch)
-            self.load_network(self.netG_B, 'G_B', which_epoch)
-            if self.isTrain:
-                self.load_network(self.netD_A, 'D_A', which_epoch)
-                self.load_network(self.netD_B, 'D_B', which_epoch)
+        if not self.isTrain : # or opt.continue_train:
+            self.load_network(self.netG, 'G', opt.which_epoch)
 
         if self.isTrain:
+            use_lsgan = True if opt.ganloss is 'mse' else False
+            use_sigmoid = not use_lsgan
+            self.netD = models.DNet(1, insize=opt.psf_size, out_c=1, n_layers=opt.D_layer_nun,
+                                    norm_mode=opt.D_norm_mode, use_sigmoid=use_sigmoid)
+            if self.opt.cudaid is not 0:
+                self.netD = self.netD.cuda()
+            self.fake_psf_pool = ImagePool(opt.pool_size)
             self.old_lr = opt.lr
-            self.fake_A_pool = ImagePool(opt.pool_size)
-            self.fake_B_pool = ImagePool(opt.pool_size)
+
             # define loss functions
-            self.criterionGAN = networks.GANLoss(use_lsgan=not opt.no_lsgan, tensor=self.Tensor)
-            self.criterionCycle = torch.nn.L1Loss()
-            self.criterionIdt = torch.nn.L1Loss()
+            self.criterionGAN = models.GANLoss(use_lsgan=use_lsgan, tensor=self.Tensor)
+            self.criterionGenerate = loss_dict[opt.generate_loss]()
+            self.criterionID = loss_dict[opt.identity_loss]()
+
             # initialize optimizers
-            self.optimizer_G = torch.optim.Adam(itertools.chain(self.netG_A.parameters(), self.netG_B.parameters()),
+            self.optimizer_G = torch.optim.Adam(self.netG.parameters(),
                                                 lr=opt.lr, betas=(opt.beta1, 0.999))
-            self.optimizer_D_A = torch.optim.Adam(self.netD_A.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
-            self.optimizer_D_B = torch.optim.Adam(self.netD_B.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
+            self.optimizer_D = torch.optim.Adam(self.netD.parameters(),
+                                                lr=opt.lr, betas=(opt.beta1, 0.999))
+            if opt.optimize_mode is not 'admm':
+                raise ValueError('optimize_mode: %s undifine'%(opt.optimize_mode))
 
         print('---------- Networks initialized -------------')
-        networks.print_network(self.netG_A)
-        networks.print_network(self.netG_B)
+        print_params_num(self.netG)
         if self.isTrain:
-            networks.print_network(self.netD_A)
-            networks.print_network(self.netD_B)
+            print_params_num(self.netD)
         print('-----------------------------------------------')
 
-    def set_input(self, input):
-        AtoB = self.opt.which_direction == 'AtoB'
-        input_A = input['A' if AtoB else 'B']
-        input_B = input['B' if AtoB else 'A']
-        self.input_A.resize_(input_A.size()).copy_(input_A)
-        self.input_B.resize_(input_B.size()).copy_(input_B)
-        self.image_paths = input['A_paths' if AtoB else 'B_paths']
+    def set_input(self, input): #blur,unnormpsf(0-1),orig
+        input_blur = input[0]
+        input_psf = input[1]
+        input_orig = input[2]
+        self.input_blur.resize_(input_blur.size()).copy_(input_blur)
+        self.input_psf.resize_(input_psf.size()).copy_(input_psf)
+        self.input_orig.resize_(input_orig.size()).copy_(input_orig)
 
     def forward(self):
-        self.real_A = Variable(self.input_A)
-        self.real_B = Variable(self.input_B)
+        self.real_blur = Variable(self.input_blur)
+        self.fake_psf = self.netG(self.real_blur)
+        self.real_psf = Variable(self.input_psf)
+        self.id_psf = Variable(self.input_id_psf)
+        self.orig = Variable(self.input_orig)
+        self.fake_id_psf = self.netG(self.orig)
 
+    # no backprop gradients
     def test(self):
-        self.real_A = Variable(self.input_A, volatile=True)
-        self.fake_B = self.netG_A.forward(self.real_A)
-        self.rec_A = self.netG_B.forward(self.fake_B)
+        self.real_blur = Variable(self.input_blur, volatile=True)
+        self.fake_psf = self.netG(self.real_blur)
+        self.real_psf = Variable(self.input_psf, volatile=True)
 
-        self.real_B = Variable(self.input_B, volatile=True)
-        self.fake_A = self.netG_B.forward(self.real_B)
-        self.rec_B = self.netG_A.forward(self.fake_A)
+    def backward_D(self): #forward+backward
 
-    # get image paths
-    def get_image_paths(self):
-        return self.image_paths
-
-    def backward_D_basic(self, netD, real, fake):
-        # Real
-        pred_real = netD.forward(real)
-        loss_D_real = self.criterionGAN(pred_real, True)
+        # the condition input of D
+        real_blur = self.real_blur.chunk(self.opt.img_by_psf, dim=0)
         # Fake
-        pred_fake = netD.forward(fake.detach())
-        loss_D_fake = self.criterionGAN(pred_fake, False)
+        # stop backprop to the generator by detaching fake_psf
+        fake_blurpsf = self.fake_psf_pool.query(torch.cat((real_blur, self.fake_psf), 1))
+        self.pred_fake = self.netD(fake_blurpsf.detach())
+        self.loss_D_fake = self.criterionGAN(self.pred_fake, False)
+
+        # Real
+        real_blurpsf = torch.cat((real_blur, self.real_psf), 1)
+        self.pred_real = self.netD(real_blurpsf)
+        self.loss_D_real = self.criterionGAN(self.pred_real, True)
+
         # Combined loss
-        loss_D = (loss_D_real + loss_D_fake) * 0.5
-        # backward
-        loss_D.backward()
-        return loss_D
+        self.loss_D = (self.loss_D_fake + self.loss_D_real) * 0.5
 
-    def backward_D_A(self):
-        fake_B = self.fake_B_pool.query(self.fake_B)
-        self.loss_D_A = self.backward_D_basic(self.netD_A, self.real_B, fake_B)
-
-    def backward_D_B(self):
-        fake_A = self.fake_A_pool.query(self.fake_A)
-        self.loss_D_B = self.backward_D_basic(self.netD_B, self.real_A, fake_A)
+        self.loss_D.backward() #GAN loss but stop at D
 
     def backward_G(self):
-        lambda_idt = self.opt.identity
-        lambda_A = self.opt.lambda_A
-        lambda_B = self.opt.lambda_B
-        # Identity loss
-        if lambda_idt > 0:
-            # G_A should be identity if real_B is fed.
-            self.idt_A = self.netG_A.forward(self.real_B)
-            self.loss_idt_A = self.criterionIdt(self.idt_A, self.real_B) * lambda_B * lambda_idt
-            # G_B should be identity if real_A is fed.
-            self.idt_B = self.netG_B.forward(self.real_A)
-            self.loss_idt_B = self.criterionIdt(self.idt_B, self.real_A) * lambda_A * lambda_idt
-        else:
-            self.loss_idt_A = 0
-            self.loss_idt_B = 0
 
-        # GAN loss
-        # D_A(G_A(A))
-        self.fake_B = self.netG_A.forward(self.real_A)
-        pred_fake = self.netD_A.forward(self.fake_B)
-        self.loss_G_A = self.criterionGAN(pred_fake, True)
-        # D_B(G_B(B))
-        self.fake_A = self.netG_B.forward(self.real_B)
-        pred_fake = self.netD_B.forward(self.fake_A)
-        self.loss_G_B = self.criterionGAN(pred_fake, True)
-        # Forward cycle loss
-        self.rec_A = self.netG_B.forward(self.fake_B)
-        self.loss_cycle_A = self.criterionCycle(self.rec_A, self.real_A) * lambda_A
-        # Backward cycle loss
-        self.rec_B = self.netG_A.forward(self.fake_A)
-        self.loss_cycle_B = self.criterionCycle(self.rec_B, self.real_B) * lambda_B
-        # combined loss
-        self.loss_G = self.loss_G_A + self.loss_G_B + self.loss_cycle_A + self.loss_cycle_B + self.loss_idt_A + self.loss_idt_B
+        # the condition input of D
+        real_blur = self.real_blur.chunk(self.opt.img_by_psf, dim=0)
+
+        # First, G() should fake the discriminator
+        fake_blurpsf = torch.cat((real_blur, self.fake_psf), 1)
+        pred_fake = self.netD(fake_blurpsf)
+        self.loss_G_GAN = self.criterionGAN(pred_fake, True)
+
+        # Second, G(blur) = psf
+        self.loss_G_gen = self.criterionGenerate(self.fake_psf, self.real_psf) * self.opt.lambda1
+
+        # Third, G(orig) = id_psf
+        self.loss_G_id = self.criterionID(self.fake_id_psf,self.id_psf) * self.opt.lambda2
+
+        # Fourth, orig * G(blur)_norm = blur
+        fake_psf_norm = self.norm_psf(self.fake_psf)
+        pad_w = self.opt.psf_size//2
+        orig = F.pad(self.orig, ( pad_w, pad_w, pad_w, pad_w), mode='reflect')
+        self.fake_blur = F.conv2d(orig,fake_psf_norm)
+        self.loss_G_cycle = self.criterionGenerate(self.fake_blur,self.real_blur) * self.opt.lambda3
+
+        self.loss_G = self.loss_G_GAN + self.loss_G_gen + self.loss_G_id + self.loss_G_cycle
+
         self.loss_G.backward()
 
     def optimize_parameters(self):
-        # forward
+
         self.forward()
-        # G_A and G_B
+
+        self.optimizer_D.zero_grad()
+        self.backward_D()
+        self.optimizer_D.step()
+
         self.optimizer_G.zero_grad()
         self.backward_G()
         self.optimizer_G.step()
-        # D_A
-        self.optimizer_D_A.zero_grad()
-        self.backward_D_A()
-        self.optimizer_D_A.step()
-        # D_B
-        self.optimizer_D_B.zero_grad()
-        self.backward_D_B()
-        self.optimizer_D_B.step()
 
     def get_current_errors(self):
-        D_A = self.loss_D_A.data[0]
-        G_A = self.loss_G_A.data[0]
-        Cyc_A = self.loss_cycle_A.data[0]
-        D_B = self.loss_D_B.data[0]
-        G_B = self.loss_G_B.data[0]
-        Cyc_B = self.loss_cycle_B.data[0]
-        if self.opt.identity > 0.0:
-            idt_A = self.loss_idt_A.data[0]
-            idt_B = self.loss_idt_B.data[0]
-            return OrderedDict([('D_A', D_A), ('G_A', G_A), ('Cyc_A', Cyc_A), ('idt_A', idt_A),
-                                ('D_B', D_B), ('G_B', G_B), ('Cyc_B', Cyc_B), ('idt_B', idt_B)])
-        else:
-            return OrderedDict([('D_A', D_A), ('G_A', G_A), ('Cyc_A', Cyc_A),
-                                ('D_B', D_B), ('G_B', G_B), ('Cyc_B', Cyc_B)])
+        return OrderedDict([('G_GAN', self.loss_G_GAN.data[0]),
+                            ('G_gen', self.loss_G_gen.data[0]),
+                            ('G_ID' , self.loss_G_id.data[0]),
+                            ('G_cyc', self.loss_G_cycle.data[0]),
+                            ('D_real', self.loss_D_real.data[0]),
+                            ('D_fake', self.loss_D_fake.data[0])
+                            ])
+
+    def get_total_loss(self):
+        return self.loss_G_GAN.data[0] + self.loss_G_L1.data[0] + self.loss_G_id.data[0] +\
+               self.loss_G_cycle.data[0] + self.loss_D_real.data[0] + self.loss_D_fake.data[0]
 
     def get_current_visuals(self):
-        real_A = util.tensor2im(self.real_A.data)
-        fake_B = util.tensor2im(self.fake_B.data)
-        rec_A = util.tensor2im(self.rec_A.data)
-        real_B = util.tensor2im(self.real_B.data)
-        fake_A = util.tensor2im(self.fake_A.data)
-        rec_B = util.tensor2im(self.rec_B.data)
-        if self.opt.identity > 0.0:
-            idt_A = util.tensor2im(self.idt_A.data)
-            idt_B = util.tensor2im(self.idt_B.data)
-            return OrderedDict([('real_A', real_A), ('fake_B', fake_B), ('rec_A', rec_A), ('idt_B', idt_B),
-                                ('real_B', real_B), ('fake_A', fake_A), ('rec_B', rec_B), ('idt_A', idt_A)])
-        else:
-            return OrderedDict([('real_A', real_A), ('fake_B', fake_B), ('rec_A', rec_A),
-                                ('real_B', real_B), ('fake_A', fake_A), ('rec_B', rec_B)])
+        real_blur = tensor2im(self.real_blur.data)
+        fake_blur = tensor2im(self.fake_blur.data)
+        fake_psf = tensor2im(self.fake_psf.data)
+        real_psf = tensor2im(self.real_psf.data)
+        return OrderedDict([('real_blur', real_blur), ('fake_blur', fake_blur),('fake_psf', fake_psf), ('real_psf', real_psf)])
 
-    def save(self, label):
-        self.save_network(self.netG_A, 'G_A', label, self.gpu_ids)
-        self.save_network(self.netD_A, 'D_A', label, self.gpu_ids)
-        self.save_network(self.netG_B, 'G_B', label, self.gpu_ids)
-        self.save_network(self.netD_B, 'D_B', label, self.gpu_ids)
+
+    def save_network(self,epoch,step):
+        filename = self.opt.get_ckpt_name()
+        save_path = os.path.join(self.opt.ckpt_dir, filename)
+        model_dict = OrderedDict([('G',self.netG.cpu()),
+                                  ('D',self.netD.cpu()),
+                                  ('opt',self.opt),
+                                  ('epoch',epoch),
+                                  ('step',step)
+                                  ('time','I dont Know')
+                                  ])
+        save_path = os.path.join(self.save_dir, save_path)
+        torch.save(model_dict, save_path)
+        if self.opt.cudaid is not 0 and torch.cuda.is_available():
+            self.netG.cuda()
+            self.netD.cuda()
 
     def update_learning_rate(self):
         lrd = self.opt.lr / self.opt.niter_decay
         lr = self.old_lr - lrd
-        for param_group in self.optimizer_D_A.param_groups:
-            param_group['lr'] = lr
-        for param_group in self.optimizer_D_B.param_groups:
+        for param_group in self.optimizer_D.param_groups:
             param_group['lr'] = lr
         for param_group in self.optimizer_G.param_groups:
             param_group['lr'] = lr
-
         print('update learning rate: %f -> %f' % (self.old_lr, lr))
         self.old_lr = lr
+
+    def set_identity_psf(self,id_psf):
+        id_psf = id_psf.zero_()
+        ks = id_psf.size(2)
+        id_psf[:,:,ks//2,ks//2] = 1
+
+    def norm_psf(self,psf):
+        # div by its sum of dim2,3
+        bs = psf.size(0)
+        ch = psf.size(1)
+        wh = psf.size(2)
+        psf.contiguous()
+        sumtensor = psf.view(-1,wh*wh).sum(1).view(bs,ch).unsqueeze(2).unsqueeze(3).expand(bs,ch,wh,wh)
+        return psf/sumtensor
+
+
+opt = Option()
+bmvc_data = BMVC_blur_psf_orig_Folder( opt.train_dir,opt.color_mode )
+bmvc_loader = DataLoader(bmvc_data, batch_size=opt.batch_size)
+dataset_size = bmvc_data.__len__()
+print("------------- loading dataset ---------------")
+print("img num: %d" %(dataset_size) )
+print("---------------------------------------------")
+
+model = blindGAN(opt)
+visualizer = draw.Visualizer()
+
+total_steps = 0
+best_loss = None
+for epoch in range(1, opt.niter + opt.niter_decay + 1):
+    epoch_start_time = time.time()
+    for i, data in enumerate(bmvc_loader):
+        iter_start_time = time.time()
+        total_steps += opt.batch_size
+        epoch_iter = total_steps - dataset_size * (epoch - 1)
+
+        model.set_input(data)
+        model.optimize_parameters()
+
+        if total_steps % opt.interval_vis == 0:
+            visualizer.display_current_results(model.get_current_visuals())
+
+        if total_steps % opt.interval_log == 0:
+            errors = model.get_current_errors()
+            t = (time.time() - iter_start_time) / opt.batch_size
+            visualizer.print_current_errors(epoch, epoch_iter, errors, t)
+            if opt.display_id > 0:
+                visualizer.plot_current_errors(epoch, float(epoch_iter)/dataset_size, errors)
+
+        total_loss = model.get_total_loss()
+        if best_loss is None:
+            best_loss = total_loss
+        elif best_loss>total_loss:
+            best_loss = total_loss
+            model.save_network(epoch,total_steps)
+
+
+    print('End of epoch %d / %d \t Time Taken: %d sec' %
+          (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
+
+    if epoch > opt.niter:
+        model.update_learning_rate()

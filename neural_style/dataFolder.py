@@ -1,12 +1,9 @@
-import os
-import os.path
 from . import filters
 from .utils import load_HR_image,HR2LR,make_dataset,IMG_EXTENSIONS
 import numpy
 import torch
 import torch.utils.data as data
 from PIL import Image
-from torch.autograd import Variable
 from torchvision import transforms
 
 class trainingFolder(data.Dataset):
@@ -82,7 +79,7 @@ class BMVCFolder(data.Dataset):
 
 class BMVC_blur_psf_orig_Folder(data.Dataset):
 
-    def __init__(self, root,loader=load_HR_image,mode='L'):
+    def __init__(self, root, mode='L'):
         super(BMVC_blur_psf_orig_Folder,self).__init__()
 
         # color mode
@@ -116,14 +113,15 @@ class BMVC_blur_psf_orig_Folder(data.Dataset):
 
         orig = self.load_orig(imgdir+"_orig.png",scalesize=None,mode=self.mode)  # PIL Image,0-255 hxwxc
         psf = self.load_psf(imgdir+"_psf.png",self.psfsize)  # np 0-255 29x29x1
-        normpsfnp,blur = filters.psf_blur(orig,psf,self.size)  # np 0-very_small, 29x29x1;PIL Image,0-255 hxwxc
+        normpsfnp = self.norm_psf(psf) # np 0-verysmall 29x29x1
+        blur = filters.psf_blur(orig,normpsfnp,self.size)  # PIL Image,0-255 hxwxc
 
         blur = self.imgtrans(blur)  # tensor 0-1 cxhxw
         orig = self.imgtrans(orig)  # tensor 0-1 cxhxw
         unnormpsf = self.psfimgtrans(Image.fromarray(psf))  # tensor 0-1,1x29x29
-        normpsf = self.psftotensor(normpsfnp)  # very small float tensor used to conv, 1x29x29
+        #normpsf = self.psftotensor(normpsfnp)  # very small float tensor used to conv, 1x29x29
 
-        return blur,unnormpsf,normpsf,orig
+        return blur,unnormpsf,orig
 
     def load_psf(self,filename,maxsize):
 
@@ -148,6 +146,11 @@ class BMVC_blur_psf_orig_Folder(data.Dataset):
         if scalesize is not None:
             img = img.resize((scalesize, scalesize), Image.ANTIALIAS)
         return img
+
+    def norm_psf(self,psfnp):
+        psfnp /= 255
+        psfnp /= psfnp.sum()
+        return psfnp
 
     def psftotensor(self,psf):
         return torch.from_numpy(psf.astype(numpy.float32)).squeeze(0)

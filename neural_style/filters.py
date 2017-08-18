@@ -73,9 +73,6 @@ def psf_blur(origimg,psfnp,size):
     #   psfnp: numpy norm kernel 0-?
     #   blurimg: PIL Image
 
-    # normalize psf
-    psfnp /= 255
-    psfnp /= psfnp.sum()
     # conv2d:  orig np img conv with float normkernel
     blur = cv2.filter2D(np.array(origimg).astype(np.float32),-1,psfnp)
     # blur result turn back to PIL Image
@@ -86,7 +83,7 @@ def psf_blur(origimg,psfnp,size):
 
     if size is not None:
         blur = blur.resize((size, size), origimg.ANTIALIAS)
-    return psfnp,blur
+    return blur
 
 
 

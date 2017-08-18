@@ -7,13 +7,12 @@ import torch.utils.data as data
 from PIL import Image
 from torch.autograd import Variable
 from torchvision import transforms
+import random
 
 IMG_EXTENSIONS = [
     '.jpg', '.JPG', '.jpeg', '.JPEG',
     '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP',
 ]
-
-
 
 
 def is_image_file(filename):
@@ -125,110 +124,6 @@ class trainingFolder(data.Dataset):
         return len(self.imgs)
 
 
-class BMVCFolder(data.Dataset):
-
-    def __init__(self, root, HR_size, LR_scale=None,
-                 transform=None, target_transform=None,loader=load_HR_image,mode='L'):
-        super(BMVCFolder,self).__init__()
-        self.loader = loader
-
-        self.HR_size = HR_size
-        self.LR_scale = LR_scale
-        self.mode=mode
-        self.transform = transform
-        self.target_transform = target_transform
-        self.dir = root
-        self.imgs = make_dataset(root)
-        if len(self.imgs ) == 0:
-            raise (RuntimeError("Found 0 images in subfolders of: " + root + "\n"
-                                                                             "Supported image extensions are: " + ",".join(
-                IMG_EXTENSIONS)))
-    def __getitem__(self, index):
-        imgdir = self.dir + "/" + str(index).zfill(7)
-        #training img--content
-        img = self.loader(imgdir+"_blur.png",self.HR_size,mode=self.mode)
-        #target img--reference
-        target = self.loader(imgdir+"_orig.png",self.HR_size,mode=self.mode)
-
-        if self.transform is not None:
-            img = self.transform(img)
-        if self.target_transform is not None:
-            target = self.target_transform(target)
-        return img, target
-
-    def __len__(self):
-        return len(self.imgs)//3
-
-class BMVC_blur_psf_orig_Folder(data.Dataset):
-
-    def __init__(self, root, HR_size, LR_scale=None,
-                 transform=None,loader=load_HR_image,mode='L'):
-        super(BMVCFolder,self).__init__()
-        self.loader = loader
-
-        self.HR_size = HR_size
-        self.LR_scale = LR_scale
-        self.mode=mode
-        self.imgtotensor=transforms.Compose([transforms.ToTensor(),transforms.Lambda(lambda x_HR: x_HR.mul(255))])
-        self.dir = root
-        self.imgs = make_dataset(root)
-
-        if len(self.imgs ) == 0:
-            raise (RuntimeError("Found 0 images in subfolders of: " + root + "\n"
-                                                                             "Supported image extensions are: " + ",".join(
-                IMG_EXTENSIONS)))
-
-    def __getitem__(self, index):
-
-        imgdir = self.dir + "/" + str(index).zfill(7)
-
-        orig = self.load_orig(imgdir+"_orig.png",self.size,mode=self.mode)
-        psf = self.load_psf(imgdir+"_psf.png")
-        normpsf,blur = filters.psf_blur(origimg=orig,psfnp=psf,size=self.size)
-
-        blur = self.imgtotensor(blur)
-        orig = self.imgtotensor(orig)
-        normpsf = self.psftotensor(normpsf)
-
-        return blur,normpsf,orig
-
-    def load_psf(self,filename,maxsize=29):
-
-        # input: img path
-        # oputput: padded np kernel 0-255
-        kernel = Image.open(filename).convert('L')
-        padkernel = numpy.pad(numpy.array(kernel), (maxsize-kernel.size[0])//2, 'constant')
-        return padkernel
-
-    def load_orig(self,filename, size=None, mode='L'):
-
-        # input: img path
-        # output: PIL img
-        if mode is 'Y':
-            y, cb, cr = Image.open(filename).convert('YCbCr').split()
-            img = y
-        elif mode is 'L':
-            img = Image.open(filename).convert('L')
-        elif mode is 'RGB':
-            img = Image.open(filename).convert('RGB')
-        elif mode is 'YCbCr':
-            img = Image.open(filename).convert('YCbCr')
-
-        h, w = img.size
-        img = img.crop((0, 0, h - h % 4, w - w % 4))
-
-        if size is not None:
-            img = img.resize((size, size), Image.ANTIALIAS)
-        return img
-
-    def psftotensor(self,psf):
-        return torch.from_numpy(psf.astype(numpy.float32)).squeeze(0)
-
-
-
-    def __len__(self):
-        return len(self.imgs)//3
-
 def make_dataset(dir):
     images = []
     for target in os.listdir(dir):
@@ -237,7 +132,7 @@ def make_dataset(dir):
             images.append(fname)
     return images
 
-
+# tensor->np and save to disk
 def save_image(filename, data):
     img = data.clone().clamp(0, 255).numpy()
     img = img.transpose(1, 2, 0).astype("uint8")
@@ -245,16 +140,10 @@ def save_image(filename, data):
     img.save(filename)
 
 
-def gram_matrix(y):
-    (b, ch, h, w) = y.size()
-    features = y.view(b, ch, w * h)
-    features_t = features.transpose(1, 2)
-    gram = features.bmm(features_t) / (ch * h * w)
-    return gram
 
 
 def normalize_batch(batch):
-    # normalize using imagenet mean and std
+    # normalize using coco2014 mean and std
     mean = batch.data.new(batch.data.size())
     std = batch.data.new(batch.data.size())
     mean[:, 0, :, :] = 0.485
@@ -356,3 +245,49 @@ class L1edgeReg(torch.nn.Module):
 
     def _tensor_size(self,t):
         return t.size()[1]*t.size()[2]*t.size()[3]
+
+class ImagePool():
+    def __init__(self, pool_size):
+        self.pool_size = pool_size
+        if self.pool_size > 0:
+            self.num_imgs = 0
+            self.images = [] # variable
+
+    def query(self, images):
+        if self.pool_size == 0:
+            return images
+        return_images = []
+        for image in images.data:# tensor
+            image = torch.unsqueeze(image, 0) # no batch tensor
+            if self.num_imgs < self.pool_size:
+                # when pool unfull use current imgs, and add one in pool
+                self.num_imgs = self.num_imgs + 1
+                self.images.append(image)
+                return_images.append(image)
+            else:
+                # pool is full, use random 50 history imgs as whole output
+                # , 0.5 prob of replace randomly chosen one in pool by new G(x)
+                p = random.uniform(0, 1)
+                if p > 0.5:
+                    random_id = random.randint(0, self.pool_size-1)
+                    tmp = self.images[random_id].clone()
+                    self.images[random_id] = image
+                    return_images.append(tmp)
+                else:
+                    return_images.append(image)
+        return_images = Variable(torch.cat(return_images, 0))
+        # return size of img with batchsize=pool_size
+        return return_images
+
+def print_params_num(net):
+    num_params = 0
+    for param in net.parameters():
+        num_params += param.numel()
+    print(net)
+    print('Total number of parameters: %d' % num_params)
+
+# tensor 0-1 cxhxw to np 0-255 hxwxc
+def tensor2im(image_tensor, imtype=numpy.uint8):
+    image_numpy = image_tensor[0].cpu().float().numpy()
+    image_numpy = (numpy.transpose(image_numpy, (1, 2, 0)) + 1) / 2.0 * 255.0
+    return image_numpy.astype(imtype)

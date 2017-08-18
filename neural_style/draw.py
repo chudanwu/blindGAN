@@ -1,6 +1,6 @@
 from PIL import Image
 import  numpy as np
-
+import visdom
 def drawloss(viz,loss_win,batch_id,loss):
     if loss_win is None:
         loss_win = viz.line(
@@ -80,3 +80,48 @@ def imgnp_convert(img,mode='RGB',Cb=None,Cr=None):
         return img.astype("uint8")
     else:
         print('error: imgnp_convert mode undifine')
+
+import numpy as np
+import time
+
+class Visualizer():
+    def __init__(self):
+        self.vis = visdom.Visdom(env='wcd')
+        self.display_id = 1
+
+    # |visuals|: dictionary of images to display or save
+    def display_current_results(self, visuals):
+
+        idx = 1
+        for label, image_numpy in visuals.items():
+            self.vis.image(image_numpy.transpose([2,0,1]), opts=dict(title=label),
+                               win=self.display_id + idx)
+            idx += 1
+
+    # errors: dictionary of error labels and values
+    def plot_current_errors(self, epoch, counter_ratio, errors):
+        if not hasattr(self, 'plot_data'):
+            self.plot_data = {'X':[],'Y':[], 'legend':list(errors.keys())}
+        self.plot_data['X'].append(epoch + counter_ratio)
+        self.plot_data['Y'].append([errors[k] for k in self.plot_data['legend']])
+        self.vis.line(
+            X=np.stack([np.array(self.plot_data['X'])]*len(self.plot_data['legend']),1),
+            Y=np.array(self.plot_data['Y']),
+            opts={
+                'title': self.name + ' loss over time',
+                'legend': self.plot_data['legend'],
+                'xlabel': 'epoch',
+                'ylabel': 'loss'},
+            win=self.display_id)
+
+    # errors: same format as |errors| of plotCurrentErrors
+    def print_current_errors(self, epoch, i, errors, t):
+        message = '(epoch: %d, iters: %d, time: %.3f) ' % (epoch, i, t)
+        for k, v in errors.items():
+            message += '%s: %.3f ' % (k, v)
+
+        print(message)
+        with open(self.log_name, "a") as log_file:
+            log_file.write('%s\n' % message)
+
+
