@@ -102,27 +102,42 @@ $$单个样本。输入：x,标签：y,输出：F(x),网络参数：\theta,特�
 2. pair blindGAN ：
     
     loss：
-    $$ ldentity\ loss:\ argmin_G = E|| G(H)-\delta ||_1$$
-    $$ generate\ loss:\ argmin_G = E|| H*G(L)-L ||_2$$
-    $$ GAN\ loss:\ argmin_Gmax_D = E[\log(D(L,k))] + E[1-\log(D(L,G(x)))]$$
+
+-[X]
+    $$ 
+    ldentity\ loss:\ argmin_G = E|| G(H)-\delta ||_1
+    $$
+-[ ]
+    $$ 
+    cycle\ loss:\ argmin_G = E|| H*G(L)-L ||_1
+    $$
+-[X]
+    $$
+    GAN\ loss:\ argmin_Gmax_D = E[\log(D(L,k))] + E[1-\log(D(L,G(x)))]
+    $$
+-[X]
+    $$
+    generate \ loss:\ argmin_G = E||G(L)-k||_1
+    $$
 
     结构：
 
     G：
 
-        scaling：1x116x116->1x1x29
-        resblock：conv+norm+relu
-        lastactivate：如果输入norm到（mean=0.5,std=0.5），用tanh；norm到（mean=0,std=1），用sigmoid。
+        scaling：1x116x116->1x1x29 √
+        resblock：conv+norm+relu+dropout √
+        lastactivate：tanh/sigmoid
     
     D：
 
-        fully convolution layer: conv+norm+leakyrelu(sigmoid for last 0-1 output)
+        fully convolution layer: conv+norm +leakyrelu(sigmoid for last 0-1 output) √
 
     预处理：
     
         G的输入random crop
-        D用上history pool
-        注意使用detach避免不必要的梯度反向
+        D用上history pool √
+        注意使用detach避免不必要的梯度反向 √
+
 
 
     
