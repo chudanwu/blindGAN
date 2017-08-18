@@ -63,7 +63,7 @@ def gauss_blur(img,sigma,kernel=5):
     img =  cv2.GaussianBlur(np.array(img),(kernel,kernel),sigma)
     return PIL.Image.fromarray(img)
 
-def psf_blur(origimg,psfnp,size):
+def psf_blur(origimg,psfnp):
 
     # in:
     #   origimg: PIL Image
@@ -78,11 +78,6 @@ def psf_blur(origimg,psfnp,size):
     # blur result turn back to PIL Image
     blur = PIL.Image.fromarray( blur.astype(np.uint8))
 
-    h, w = size
-    blur = blur.crop((0, 0, h - h % 4, w - w % 4))
-
-    if size is not None:
-        blur = blur.resize((size, size), origimg.ANTIALIAS)
     return blur
 
 

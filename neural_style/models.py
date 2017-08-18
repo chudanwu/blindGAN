@@ -49,12 +49,12 @@ class GNet(torch.nn.Module):
         y = y + X
         return y
 
-class GpsfNet():
+class GpsfNet(torch.nn.Module):
     '''
         GNet for generate unnorm psf of certain size(1x29x29), value in (0,1)
         '''
 
-    def __init__(self, mode='RGB', out_c=1,resblock_num=8, downscale=2,norm_mode='IN',drop_out=None):
+    def __init__(self, mode='RGB', out_c=1,resblock_num=8, downscale=2-1,norm_mode='IN',drop_out=None):
         super(GpsfNet, self).__init__()
         if mode is 'Y' or mode is 'L':
             in_c = 1
@@ -68,18 +68,16 @@ class GpsfNet():
             [ResidualBlock(reschannel, norm_mode=norm_mode,drop_out=drop_out) for resblock in range(resblock_num)])
 
         self.encoder = EncoderBlock(in_c, reschannel, downscale=downscale, norm_mode=norm_mode)
-        self.activelayer =torch.nn.Sequential(
-            [
-                ConvLayer(reschannel, out_c, kernel_size=3, stride=1),
-                torch.nn.Sigmoid()# when output is norm to(mean=0.5,mean=0.5)->TANH
-            ])
+        activelayer = [ConvLayer(reschannel, out_c, kernel_size=3, stride=1),torch.nn.Sigmoid()]
+                            # when output is norm to(mean=0.5,mean=0.5)->TANH
+        self.last = torch.nn.Sequential(*activelayer)
 
     def forward(self, X):
         resin = self.encoder(X)
         y = resin
         for i, res in enumerate(self.resblocks):
             y = res(y)
-        y = self.activelayer(y)
+        y = self.last(y)
         return y
 
 class DNet(torch.nn.Module):
@@ -90,11 +88,11 @@ class DNet(torch.nn.Module):
         # in_c should be channel of input, either G()_c or G()_c + Condiction_c
         super(DNet, self).__init__()
         self.insize = insize
-        if (norm_mode is not 'IN' or norm_mode is not 'BN'):
+        if (norm_mode is not 'IN' and norm_mode is not 'BN'):
             raise ValueError('norm_mode value [%s] is undifined' %norm_mode)
         feat_c = 64
         sequence = [
-            ConvLayer(in_c, feat_c, kernel_size=4, stride=2),
+            ConvLayer(in_c, feat_c, kernel_size=3, stride=2),
             torch.nn.LeakyReLU(0.2, True)
         ]
 
@@ -105,7 +103,7 @@ class DNet(torch.nn.Module):
             feat_c_mult = min(2**n, 8)
             sequence += [
                 ConvLayer(feat_c*feat_c_mult_prev, feat_c * feat_c_mult,
-                          kernel_size=4, stride=2),
+                          kernel_size=3, stride=2),
                 create_norm_layer(feat_c * feat_c_mult,norm_mode),
                 torch.nn.LeakyReLU(0.2, True)
             ]
@@ -114,13 +112,13 @@ class DNet(torch.nn.Module):
         feat_c_mult_prev = feat_c_mult
         feat_c_mult = min(2**n_layers, 8)
         sequence += [
-            ConvLayer(feat_c * feat_c_mult_prev, feat_c * feat_c_mult,kernel_size=4, stride=1),
+            ConvLayer(feat_c * feat_c_mult_prev, feat_c * feat_c_mult,kernel_size=3, stride=1),
             create_norm_layer(feat_c * feat_c_mult,norm_mode),
             torch.nn.LeakyReLU(0.2, True)
         ]
 
         # last conv layer out_c=1 and maybe active by sigmoid to output prob
-        sequence += [ConvLayer(feat_c * feat_c_mult, out_c, kernel_size=4, stride=1)]
+        sequence += [ConvLayer(feat_c * feat_c_mult, out_c, kernel_size=3, stride=1)]
         if use_sigmoid:
             # last layer end with sigmoid
             sequence += [torch.nn.Sigmoid()]

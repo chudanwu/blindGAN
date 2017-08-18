@@ -7,11 +7,11 @@ import  torch.nn as nn
 from collections import OrderedDict
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-from .utils import print_params_num, ImagePool, tensor2im
-from . import draw
-from .dataFolder import BMVC_blur_psf_orig_Folder
-from . import models
-from .options import Option
+from utils import print_params_num, ImagePool, tensor2im
+import draw
+from dataFolder import BMVC_blur_psf_orig_Folder
+import models
+from options import Option
 
 loss_dict = {'mse':nn.MSELoss, 'l1':nn.L1Loss, 'bce':nn.BCELoss}
 channel_of_colormode = {'L':1,'Y':1,'RGB':3}
@@ -21,7 +21,7 @@ class blindGAN():
     def name(self):
         return 'blindGAN'
 
-    def initialize(self, opt):
+    def __init__(self, opt):
 
         self.isTrain = True
         self.opt = opt
@@ -39,9 +39,9 @@ class blindGAN():
 
         # load/define networks
         self.netG = models.GpsfNet(mode=opt.color_mode, out_c=1,resblock_num=opt.G_block_num,
-                                   downscale=opt.G_bottle_scale,norm_mode=opt.G_norm_mode,dropout=opt.dropout)
+                                   downscale=opt.G_bottle_scale,norm_mode=opt.G_norm_mode,drop_out=opt.dropout)
         if self.opt.cudaid is not 0:
-            self.netD = self.netG.cuda()
+            self.netG = self.netG.cuda()
 
         if not self.isTrain : # or opt.continue_train:
             self.load_network(self.netG, 'G', opt.which_epoch)
@@ -49,7 +49,7 @@ class blindGAN():
         if self.isTrain:
             use_lsgan = True if opt.ganloss is 'mse' else False
             use_sigmoid = not use_lsgan
-            self.netD = models.DNet(1, insize=opt.psf_size, out_c=1, n_layers=opt.D_layer_nun,
+            self.netD = models.DNet(opt.img_by_psf**2+1, insize=opt.psf_size, out_c=1, n_layers=opt.D_layer_nun,
                                     norm_mode=opt.D_norm_mode, use_sigmoid=use_sigmoid)
             if self.opt.cudaid is not 0:
                 self.netD = self.netD.cuda()
@@ -100,7 +100,7 @@ class blindGAN():
     def backward_D(self): #forward+backward
 
         # the condition input of D
-        real_blur = self.real_blur.chunk(self.opt.img_by_psf, dim=0)
+        real_blur = self.real_blur.view(self.opt.batch_size,-1,self.opt.psf_size,self.opt.psf_size)
         # Fake
         # stop backprop to the generator by detaching fake_psf
         fake_blurpsf = self.fake_psf_pool.query(torch.cat((real_blur, self.fake_psf), 1))
@@ -120,7 +120,7 @@ class blindGAN():
     def backward_G(self):
 
         # the condition input of D
-        real_blur = self.real_blur.chunk(self.opt.img_by_psf, dim=0)
+        real_blur = self.real_blur.view(self.opt.batch_size,-1,self.opt.psf_size,self.opt.psf_size)
 
         # First, G() should fake the discriminator
         fake_blurpsf = torch.cat((real_blur, self.fake_psf), 1)
@@ -134,7 +134,7 @@ class blindGAN():
         self.loss_G_id = self.criterionID(self.fake_id_psf,self.id_psf) * self.opt.lambda2
 
         # Fourth, orig * G(blur)_norm = blur
-        fake_psf_norm = self.norm_psf(self.fake_psf)
+        fake_psf_norm = self.norm_psf(self.fake_psf).transpose(0,1)
         pad_w = self.opt.psf_size//2
         orig = F.pad(self.orig, ( pad_w, pad_w, pad_w, pad_w), mode='reflect')
         self.fake_blur = F.conv2d(orig,fake_psf_norm)
@@ -219,7 +219,7 @@ class blindGAN():
 
 
 opt = Option()
-bmvc_data = BMVC_blur_psf_orig_Folder( opt.train_dir,opt.color_mode )
+bmvc_data = BMVC_blur_psf_orig_Folder(opt)
 bmvc_loader = DataLoader(bmvc_data, batch_size=opt.batch_size)
 dataset_size = bmvc_data.__len__()
 print("------------- loading dataset ---------------")

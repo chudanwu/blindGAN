@@ -1,6 +1,6 @@
 import os
 import os.path
-from . import filters
+import filters
 import numpy
 import torch
 import torch.utils.data as data
