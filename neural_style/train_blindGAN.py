@@ -136,12 +136,12 @@ class blindGAN():
         # Fourth, orig * G(blur)_norm = blur
         fake_psf_norm = self.norm_psf(self.fake_psf).transpose(0,1)
         pad_w = self.opt.psf_size//2
-        orig = F.pad(self.orig, ( pad_w, pad_w, pad_w, pad_w), mode='reflect')
-        self.fake_blur = F.conv2d(orig,fake_psf_norm)
+        orig = F.pad(self.orig, ( pad_w, pad_w, pad_w, pad_w), mode='reflect').transpose(0,1)
+        fake_blur = F.conv2d(orig,fake_psf_norm,group=8)
+        # weight: outxinxkxk shoud be 8x1xkxk ,orig should be 1x8xhxw.
         self.loss_G_cycle = self.criterionGenerate(self.fake_blur,self.real_blur) * self.opt.lambda3
 
         self.loss_G = self.loss_G_GAN + self.loss_G_gen + self.loss_G_id + self.loss_G_cycle
-
         self.loss_G.backward()
 
     def optimize_parameters(self):
