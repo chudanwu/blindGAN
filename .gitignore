@@ -5,3 +5,5 @@ images
 *.pth
 *.model
 *.pyc
+ckpt
+*.ckpt

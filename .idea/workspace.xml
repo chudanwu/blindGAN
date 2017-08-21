@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc007c31-3ccf-4a7a-b52a-de90b37b3815" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/draw.py" afterPath="$PROJECT_DIR$/neural_style/draw.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/models.py" afterPath="$PROJECT_DIR$/neural_style/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/options.py" afterPath="$PROJECT_DIR$/neural_style/options.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/train_blindGAN.py" afterPath="$PROJECT_DIR$/neural_style/train_blindGAN.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/utils.py" afterPath="$PROJECT_DIR$/neural_style/utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/visdom_note.ipynb" afterPath="$PROJECT_DIR$/visdom_note.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -69,14 +63,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="train_blindGAN.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="train_blindGAN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/train_blindGAN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="245" column="23" lean-forward="false" selection-start-line="245" selection-start-column="14" selection-end-line="245" selection-end-column="23" />
+            <state relative-caret-position="3626">
+              <caret line="246" column="33" lean-forward="false" selection-start-line="246" selection-start-column="14" selection-end-line="246" selection-end-column="33" />
               <folding>
                 <element signature="e#1#12#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -125,16 +129,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fromnumeric.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/numpy/core/fromnumeric.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="549" column="0" lean-forward="false" selection-start-line="549" selection-start-column="0" selection-end-line="549" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="dataFolder.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/dataFolder.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -175,7 +169,6 @@
       <list>
         <option value="$PROJECT_DIR$/report.md" />
         <option value="$PROJECT_DIR$/neural_style/genLRs.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/neural_style/model.py" />
         <option value="$PROJECT_DIR$/neural_style/filters.py" />
         <option value="$PROJECT_DIR$/neural_style/dataFolder.py" />
@@ -184,6 +177,7 @@
         <option value="$PROJECT_DIR$/neural_style/options.py" />
         <option value="$PROJECT_DIR$/neural_style/train_blindGAN.py" />
         <option value="$PROJECT_DIR$/neural_style/utils.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -417,11 +411,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug Logs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37259102" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37259102" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20877944" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869378" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27087796" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27087796" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15002757" sideWeight="0.6008584" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24965133" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3993576" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -748,13 +742,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/t1.py" />
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/preprocewss_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-510">
@@ -946,11 +933,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/train_blindGAN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="245" column="23" lean-forward="false" selection-start-line="245" selection-start-column="14" selection-end-line="245" selection-end-column="23" />
+        <state relative-caret-position="3626">
+          <caret line="246" column="33" lean-forward="false" selection-start-line="246" selection-start-column="14" selection-end-line="246" selection-end-column="33" />
           <folding>
             <element signature="e#1#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
