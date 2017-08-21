@@ -68,7 +68,7 @@ class GpsfNet(torch.nn.Module):
             [ResidualBlock(reschannel, norm_mode=norm_mode,drop_out=drop_out) for resblock in range(resblock_num)])
 
         self.encoder = EncoderBlock(in_c, reschannel, downscale=downscale, norm_mode=norm_mode)
-        activelayer = [ConvLayer(reschannel, out_c, kernel_size=3, stride=1),torch.nn.Sigmoid()]
+        activelayer = [ConvLayer(reschannel, out_c, kernel_size=3, stride=1)]#,torch.nn.Sigmoid()]
                             # when output is norm to(mean=0.5,mean=0.5)->TANH
         self.last = torch.nn.Sequential(*activelayer)
 
@@ -248,7 +248,7 @@ class EncoderBlock(torch.nn.Module):
         for i in range(downscale,0,-1):
             layer_in_c = out_c//(2**i)
             self.convlist.append(ConvLayer(layer_in_c, layer_in_c*2, kernel_size=3, stride=2))
-            self.normlist.append(torch.nn.InstanceNorm2d(layer_in_c*2, affine=True))
+            self.normlist.append(create_norm_layer(layer_in_c*2,norm_mode=norm_mode))
 
         self.relu = torch.nn.ReLU()
 

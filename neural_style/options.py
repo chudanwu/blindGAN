@@ -20,9 +20,9 @@ class Option:
         self.color_mode = 'L' # 'L'by default,'RGB'
 
         # option for loss
-        self.ganloss = 'mse' # mse(use lsgan), bce
-        self.lambda1 = 1
-        self.generate_loss = 'mse' # mse, L1
+        self.ganloss = 'bce' # mse(use lsgan), bce
+        self.lambda1 = 10
+        self.generate_loss = 'l1' # mse, L1
         self.lambda2 = 1
         self.identity_loss = 'l1' # mse,l1
         self.lambda3 = 1 #for cyc_loss
@@ -31,13 +31,14 @@ class Option:
         self.train_dir = '/home/wcd/LinkToMyLib/Datas/BMVC_large_patches'
         self.dropout = 0.5
         self.optimize_mode = 'admm'
-        self.lr = 1e-2
+        self.lr = 1e-3
         self.niter = 100 # num of iter at starting learning rate')
         self.niter_decay = 100 # num of iter to linearly decay learning rate to zero')
         self.epoch = 2
         self.interval_eval = 200
         self.interval_log = 100
         self.interval_vis = 200
+        self.interval_save = 1000
         self.batch_size = 8
         self.ckpt_dir = 'ckpt/'
         self.beta1 = 0.5 #momentum term of adam
@@ -53,8 +54,8 @@ class Option:
         self.training_con = True
 
     def get_ckpt_name(self):
-        name = 'blindGAN_Lgan_{self.ganloss}_Lid_{self.identity_loss}_Lgen{self.generate_loss}_' \
-               'G{self.G_norm_mode}block{self.G_block_num}_D{self.D_norm_mode}layer{self.D_layer_nun}.ckpt'.format(self)
+        name = 'blindGAN_Lgan_{}_Lid_{}_Lgen{}_G{}block{}_D{}layer{}.ckpt'.format(
+            self.ganloss,self.identity_loss,self.generate_loss,self.G_norm_mode,self.G_block_num,self.D_norm_mode,self.D_layer_nun)
         #eg blindGAN_Lgan_mse_Lid_mse_Lgen_mse_GIN8_DBN3.ckpt
         return name
 

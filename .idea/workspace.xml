@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="mock:///fragment.py" line="0" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="dc007c31-3ccf-4a7a-b52a-de90b37b3815" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/dataFolder.py" afterPath="$PROJECT_DIR$/neural_style/dataFolder.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/filters.py" afterPath="$PROJECT_DIR$/neural_style/filters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/draw.py" afterPath="$PROJECT_DIR$/neural_style/draw.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/models.py" afterPath="$PROJECT_DIR$/neural_style/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/options.py" afterPath="$PROJECT_DIR$/neural_style/options.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/train_blindGAN.py" afterPath="$PROJECT_DIR$/neural_style/train_blindGAN.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/utils.py" afterPath="$PROJECT_DIR$/neural_style/utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/visdom_note.ipynb" afterPath="$PROJECT_DIR$/visdom_note.ipynb" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +30,8 @@
       <file leaf-file-name="options.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/options.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="23" />
+            <state relative-caret-position="41">
+              <caret line="23" column="25" lean-forward="false" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -36,19 +40,20 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+            <state relative-caret-position="-1407">
+              <caret line="67" column="67" lean-forward="false" selection-start-line="67" selection-start-column="59" selection-end-line="67" selection-end-column="67" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
                 <element signature="e#104#1859#0" expanded="false" />
                 <element signature="e#325#1470#0" expanded="false" />
-                <element signature="e#7955#8114#1" expanded="false" />
-                <element signature="e#10380#11847#0" expanded="false" />
-                <element signature="e#11598#11847#0" expanded="false" />
-                <element signature="e#11896#12787#0" expanded="false" />
-                <element signature="e#12830#13621#0" expanded="false" />
-                <element signature="e#13675#14011#0" expanded="false" />
-                <element signature="e#14038#14207#0" expanded="false" />
+                <element signature="e#3034#4814#0" expanded="false" />
+                <element signature="e#7957#8116#1" expanded="false" />
+                <element signature="e#10383#11850#0" expanded="false" />
+                <element signature="e#11601#11850#0" expanded="false" />
+                <element signature="e#11899#12790#0" expanded="false" />
+                <element signature="e#12833#13624#0" expanded="false" />
+                <element signature="e#13678#14014#0" expanded="false" />
+                <element signature="e#14041#14210#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -57,7 +62,7 @@
       <file leaf-file-name="transforms.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torchvision/transforms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
+            <state relative-caret-position="2664">
               <caret line="155" column="0" lean-forward="false" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
               <folding />
             </state>
@@ -67,8 +72,8 @@
       <file leaf-file-name="train_blindGAN.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/neural_style/train_blindGAN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-491">
-              <caret line="139" column="0" lean-forward="false" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+            <state relative-caret-position="206">
+              <caret line="245" column="23" lean-forward="false" selection-start-line="245" selection-start-column="14" selection-end-line="245" selection-end-column="23" />
               <folding>
                 <element signature="e#1#12#0" expanded="true" />
               </folding>
@@ -76,51 +81,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="variable.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/variable.py">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="896" column="0" lean-forward="false" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
+            <state relative-caret-position="131">
+              <caret line="289" column="18" lean-forward="false" selection-start-line="289" selection-start-column="18" selection-end-line="289" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#2081#2155#0" expanded="false" />
+                <element signature="e#2648#4134#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tensor.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/_functions/tensor.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="628">
+              <caret line="316" column="0" lean-forward="false" selection-start-line="316" selection-start-column="0" selection-end-line="316" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="functional.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/functional.py">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/visdom/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+            <state relative-caret-position="395">
+              <caret line="317" column="0" lean-forward="false" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conv.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/conv.py">
+      <file leaf-file-name="draw.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/draw.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="253" column="0" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
+            <state relative-caret-position="35">
+              <caret line="90" column="24" lean-forward="false" selection-start-line="90" selection-start-column="24" selection-end-line="90" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="module.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
+      <file leaf-file-name="fromnumeric.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/numpy/core/fromnumeric.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="223" column="0" lean-forward="false" selection-start-line="223" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dataloader.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/utils/data/dataloader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+            <state relative-caret-position="197">
+              <caret line="549" column="0" lean-forward="false" selection-start-line="549" selection-start-column="0" selection-end-line="549" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -129,8 +138,8 @@
       <file leaf-file-name="dataFolder.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/dataFolder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="154" column="20" lean-forward="false" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
+            <state relative-caret-position="741">
+              <caret line="144" column="16" lean-forward="false" selection-start-line="144" selection-start-column="8" selection-end-line="144" selection-end-column="16" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#238#1724#0" expanded="false" />
@@ -168,21 +177,21 @@
         <option value="$PROJECT_DIR$/neural_style/genLRs.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/neural_style/model.py" />
-        <option value="$PROJECT_DIR$/neural_style/draw.py" />
-        <option value="$PROJECT_DIR$/neural_style/utils.py" />
         <option value="$PROJECT_DIR$/neural_style/filters.py" />
         <option value="$PROJECT_DIR$/neural_style/dataFolder.py" />
+        <option value="$PROJECT_DIR$/neural_style/draw.py" />
         <option value="$PROJECT_DIR$/neural_style/models.py" />
         <option value="$PROJECT_DIR$/neural_style/options.py" />
         <option value="$PROJECT_DIR$/neural_style/train_blindGAN.py" />
+        <option value="$PROJECT_DIR$/neural_style/utils.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="-4" />
-    <option name="width" value="1855" />
-    <option name="height" value="1084" />
+    <option name="x" value="64" />
+    <option name="y" value="-11" />
+    <option name="width" value="1857" />
+    <option name="height" value="1092" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -200,6 +209,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -228,7 +238,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -402,19 +411,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+    <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug Logs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4057816" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37259102" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20877944" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869378" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2719486" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14837286" sideWeight="0.6008584" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27087796" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15002757" sideWeight="0.6008584" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24965133" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3993576" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13458857" sideWeight="0.39914164" order="2" side_tool="true" content_ui="tabs" />
@@ -425,6 +433,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -464,40 +473,30 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/neural_style/genLRs.py</url>
-          <line>74</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/neural_style/genLRs.py</url>
-          <line>116</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/neural_style/genLRs.py</url>
-          <line>104</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/neural_style/train_blindGAN.py</url>
-          <line>139</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="24" />
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="30" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/utils/data/dataloader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3096">
+          <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/learnSR.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -506,6 +505,8 @@
         <state relative-caret-position="18">
           <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
           <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2081#2155#0" expanded="false" />
             <element signature="e#2648#4134#0" expanded="false" />
           </folding>
         </state>
@@ -519,13 +520,14 @@
             <element signature="e#0#12#0" expanded="true" />
             <element signature="e#104#1859#0" expanded="false" />
             <element signature="e#325#1470#0" expanded="false" />
-            <element signature="e#7955#8114#1" expanded="false" />
-            <element signature="e#10380#11847#0" expanded="false" />
-            <element signature="e#11598#11847#0" expanded="false" />
-            <element signature="e#11896#12787#0" expanded="false" />
-            <element signature="e#12830#13621#0" expanded="false" />
-            <element signature="e#13675#14011#0" expanded="false" />
-            <element signature="e#14038#14207#0" expanded="false" />
+            <element signature="e#3034#4814#0" expanded="false" />
+            <element signature="e#7957#8116#1" expanded="false" />
+            <element signature="e#10383#11850#0" expanded="false" />
+            <element signature="e#11601#11850#0" expanded="false" />
+            <element signature="e#11899#12790#0" expanded="false" />
+            <element signature="e#12833#13624#0" expanded="false" />
+            <element signature="e#13678#14014#0" expanded="false" />
+            <element signature="e#14041#14210#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -534,9 +536,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -544,9 +543,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1746">
           <caret line="98" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -563,7 +559,6 @@
         <state split_layout="SECOND">
           <first_editor relative-caret-position="72">
             <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -573,9 +568,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -584,6 +576,8 @@
         <state relative-caret-position="17">
           <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
           <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2081#2155#0" expanded="false" />
             <element signature="e#2648#4134#0" expanded="false" />
           </folding>
         </state>
@@ -593,9 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -603,9 +594,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1649">
           <caret line="98" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -617,13 +605,14 @@
             <element signature="e#0#12#0" expanded="true" />
             <element signature="e#104#1859#0" expanded="false" />
             <element signature="e#325#1470#0" expanded="false" />
-            <element signature="e#7955#8114#1" expanded="false" />
-            <element signature="e#10380#11847#0" expanded="false" />
-            <element signature="e#11598#11847#0" expanded="false" />
-            <element signature="e#11896#12787#0" expanded="false" />
-            <element signature="e#12830#13621#0" expanded="false" />
-            <element signature="e#13675#14011#0" expanded="false" />
-            <element signature="e#14038#14207#0" expanded="false" />
+            <element signature="e#3034#4814#0" expanded="false" />
+            <element signature="e#7957#8116#1" expanded="false" />
+            <element signature="e#10383#11850#0" expanded="false" />
+            <element signature="e#11601#11850#0" expanded="false" />
+            <element signature="e#11899#12790#0" expanded="false" />
+            <element signature="e#12833#13624#0" expanded="false" />
+            <element signature="e#13678#14014#0" expanded="false" />
+            <element signature="e#14041#14210#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -632,9 +621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -643,6 +629,8 @@
         <state relative-caret-position="17">
           <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
           <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2081#2155#0" expanded="false" />
             <element signature="e#2648#4134#0" expanded="false" />
           </folding>
         </state>
@@ -656,13 +644,14 @@
             <element signature="e#0#12#0" expanded="true" />
             <element signature="e#104#1859#0" expanded="false" />
             <element signature="e#325#1470#0" expanded="false" />
-            <element signature="e#7955#8114#1" expanded="false" />
-            <element signature="e#10380#11847#0" expanded="false" />
-            <element signature="e#11598#11847#0" expanded="false" />
-            <element signature="e#11896#12787#0" expanded="false" />
-            <element signature="e#12830#13621#0" expanded="false" />
-            <element signature="e#13675#14011#0" expanded="false" />
-            <element signature="e#14038#14207#0" expanded="false" />
+            <element signature="e#3034#4814#0" expanded="false" />
+            <element signature="e#7957#8116#1" expanded="false" />
+            <element signature="e#10383#11850#0" expanded="false" />
+            <element signature="e#11601#11850#0" expanded="false" />
+            <element signature="e#11899#12790#0" expanded="false" />
+            <element signature="e#12833#13624#0" expanded="false" />
+            <element signature="e#13678#14014#0" expanded="false" />
+            <element signature="e#14041#14210#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -671,9 +660,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -681,9 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="16" column="10" lean-forward="false" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -691,9 +674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -702,6 +682,8 @@
         <state relative-caret-position="17">
           <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
           <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2081#2155#0" expanded="false" />
             <element signature="e#2648#4134#0" expanded="false" />
           </folding>
         </state>
@@ -715,13 +697,14 @@
             <element signature="e#0#12#0" expanded="true" />
             <element signature="e#104#1859#0" expanded="false" />
             <element signature="e#325#1470#0" expanded="false" />
-            <element signature="e#7955#8114#1" expanded="false" />
-            <element signature="e#10380#11847#0" expanded="false" />
-            <element signature="e#11598#11847#0" expanded="false" />
-            <element signature="e#11896#12787#0" expanded="false" />
-            <element signature="e#12830#13621#0" expanded="false" />
-            <element signature="e#13675#14011#0" expanded="false" />
-            <element signature="e#14038#14207#0" expanded="false" />
+            <element signature="e#3034#4814#0" expanded="false" />
+            <element signature="e#7957#8116#1" expanded="false" />
+            <element signature="e#10383#11850#0" expanded="false" />
+            <element signature="e#11601#11850#0" expanded="false" />
+            <element signature="e#11899#12790#0" expanded="false" />
+            <element signature="e#12833#13624#0" expanded="false" />
+            <element signature="e#13678#14014#0" expanded="false" />
+            <element signature="e#14041#14210#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -730,9 +713,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -740,9 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -750,9 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -768,25 +742,16 @@
         <state split_layout="SECOND">
           <first_editor relative-caret-position="72">
             <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/t1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/t1.py" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -794,9 +759,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-510">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -808,32 +770,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/draw.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="87" column="21" lean-forward="false" selection-start-line="87" selection-start-column="21" selection-end-line="87" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding>
-            <element signature="e#2081#2155#0" expanded="false" />
-            <element signature="e#2648#4134#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -841,7 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -849,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-72">
           <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -857,7 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1656">
           <caret line="93" column="28" lean-forward="true" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -865,22 +802,76 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
           <caret line="65" column="26" lean-forward="false" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/utils/data/dataloader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
+        <state relative-caret-position="3096">
           <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/conv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4464">
+          <caret line="253" column="0" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/variable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16002">
+          <caret line="896" column="0" lean-forward="false" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3888">
+          <caret line="223" column="0" lean-forward="false" selection-start-line="223" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visdom_note.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="549" column="0" lean-forward="false" selection-start-line="549" selection-start-column="0" selection-end-line="549" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/visdom/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="317" column="0" lean-forward="false" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/dataFolder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="154" column="20" lean-forward="false" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
+        <state relative-caret-position="741">
+          <caret line="144" column="16" lean-forward="false" selection-start-line="144" selection-start-column="8" selection-end-line="144" selection-end-column="16" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#238#1724#0" expanded="false" />
@@ -889,77 +880,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/conv.py">
+    <entry file="file://$PROJECT_DIR$/neural_style/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="253" column="0" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/functional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/variable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="896" column="0" lean-forward="false" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="223" column="0" lean-forward="false" selection-start-line="223" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-1407">
+          <caret line="67" column="67" lean-forward="false" selection-start-line="67" selection-start-column="59" selection-end-line="67" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#104#1859#0" expanded="false" />
+            <element signature="e#325#1470#0" expanded="false" />
+            <element signature="e#3034#4814#0" expanded="false" />
+            <element signature="e#7957#8116#1" expanded="false" />
+            <element signature="e#10383#11850#0" expanded="false" />
+            <element signature="e#11601#11850#0" expanded="false" />
+            <element signature="e#11899#12790#0" expanded="false" />
+            <element signature="e#12833#13624#0" expanded="false" />
+            <element signature="e#13678#14014#0" expanded="false" />
+            <element signature="e#14041#14210#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/options.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="23" />
+        <state relative-caret-position="41">
+          <caret line="23" column="25" lean-forward="false" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#104#1859#0" expanded="false" />
-            <element signature="e#325#1470#0" expanded="false" />
-            <element signature="e#7955#8114#1" expanded="false" />
-            <element signature="e#10380#11847#0" expanded="false" />
-            <element signature="e#11598#11847#0" expanded="false" />
-            <element signature="e#11896#12787#0" expanded="false" />
-            <element signature="e#12830#13621#0" expanded="false" />
-            <element signature="e#13675#14011#0" expanded="false" />
-            <element signature="e#14038#14207#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torchvision/transforms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
+        <state relative-caret-position="2664">
           <caret line="155" column="0" lean-forward="false" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/draw.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="90" column="24" lean-forward="false" selection-start-line="90" selection-start-column="24" selection-end-line="90" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="289" column="18" lean-forward="false" selection-start-line="289" selection-start-column="18" selection-end-line="289" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2081#2155#0" expanded="false" />
+            <element signature="e#2648#4134#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/_functions/tensor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="316" column="0" lean-forward="false" selection-start-line="316" selection-start-column="0" selection-end-line="316" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/train_blindGAN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-491">
-          <caret line="139" column="0" lean-forward="false" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+        <state relative-caret-position="206">
+          <caret line="245" column="23" lean-forward="false" selection-start-line="245" selection-start-column="14" selection-end-line="245" selection-end-column="23" />
           <folding>
             <element signature="e#1#12#0" expanded="true" />
           </folding>

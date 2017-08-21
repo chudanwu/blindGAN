@@ -134,14 +134,15 @@ class blindGAN():
         self.loss_G_id = self.criterionID(self.fake_id_psf,self.id_psf) * self.opt.lambda2
 
         # Fourth, orig * G(blur)_norm = blur
-        fake_psf_norm = self.norm_psf(self.fake_psf).transpose(0,1)
+        fake_psf_norm = self.norm_psf(self.fake_psf)
+        # input of bs x c x h x w => c x bs x hpad x wpad
         pad_w = self.opt.psf_size//2
         orig = F.pad(self.orig, ( pad_w, pad_w, pad_w, pad_w), mode='reflect').transpose(0,1)
-        fake_blur = F.conv2d(orig,fake_psf_norm,group=8)
+        self.fake_blur = F.conv2d(orig,fake_psf_norm,groups=self.opt.batch_size).transpose(0,1)
         # weight: outxinxkxk shoud be 8x1xkxk ,orig should be 1x8xhxw.
         self.loss_G_cycle = self.criterionGenerate(self.fake_blur,self.real_blur) * self.opt.lambda3
 
-        self.loss_G = self.loss_G_GAN + self.loss_G_gen + self.loss_G_id + self.loss_G_cycle
+        self.loss_G =  self.loss_G_gen + self.loss_G_id + self.loss_G_cycle # +self.loss_G_GAN
         self.loss_G.backward()
 
     def optimize_parameters(self):
@@ -166,7 +167,7 @@ class blindGAN():
                             ])
 
     def get_total_loss(self):
-        return self.loss_G_GAN.data[0] + self.loss_G_L1.data[0] + self.loss_G_id.data[0] +\
+        return self.loss_G_GAN.data[0] + self.loss_G_gen.data[0] + self.loss_G_id.data[0] +\
                self.loss_G_cycle.data[0] + self.loss_D_real.data[0] + self.loss_D_fake.data[0]
 
     def get_current_visuals(self):
@@ -177,17 +178,21 @@ class blindGAN():
         return OrderedDict([('real_blur', real_blur), ('fake_blur', fake_blur),('fake_psf', fake_psf), ('real_psf', real_psf)])
 
 
-    def save_network(self,epoch,step):
-        filename = self.opt.get_ckpt_name()
-        save_path = os.path.join(self.opt.ckpt_dir, filename)
+    def save_network(self,epoch,step,label='train'):
+        file_name = self.opt.get_ckpt_name()
+        if label is 'train':
+            file_name = 'e{}_st{}_'.format(epoch,step) + file_name
+        else:
+            file_name = 'best_'.format(epoch, step) + file_name
+
+        save_path = os.path.join(self.opt.ckpt_dir, file_name)
         model_dict = OrderedDict([('G',self.netG.cpu()),
                                   ('D',self.netD.cpu()),
                                   ('opt',self.opt),
                                   ('epoch',epoch),
-                                  ('step',step)
+                                  ('step',step),
                                   ('time','I dont Know')
                                   ])
-        save_path = os.path.join(self.save_dir, save_path)
         torch.save(model_dict, save_path)
         if self.opt.cudaid is not 0 and torch.cuda.is_available():
             self.netG.cuda()
@@ -227,7 +232,7 @@ print("img num: %d" %(dataset_size) )
 print("---------------------------------------------")
 
 model = blindGAN(opt)
-visualizer = draw.Visualizer()
+visualizer = draw.Visualizer(model.name())
 
 total_steps = 0
 best_loss = None
@@ -248,15 +253,17 @@ for epoch in range(1, opt.niter + opt.niter_decay + 1):
             errors = model.get_current_errors()
             t = (time.time() - iter_start_time) / opt.batch_size
             visualizer.print_current_errors(epoch, epoch_iter, errors, t)
-            if opt.display_id > 0:
-                visualizer.plot_current_errors(epoch, float(epoch_iter)/dataset_size, errors)
+            visualizer.plot_current_errors(epoch, float(epoch_iter) / dataset_size, errors)
 
         total_loss = model.get_total_loss()
         if best_loss is None:
             best_loss = total_loss
         elif best_loss>total_loss:
             best_loss = total_loss
-            model.save_network(epoch,total_steps)
+            model.save_network(epoch,total_steps,'best')
+
+        if total_steps % opt.interval_save == 0:
+            model.save_network(epoch, total_steps,'train')
 
 
     print('End of epoch %d / %d \t Time Taken: %d sec' %

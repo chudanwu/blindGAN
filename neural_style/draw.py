@@ -85,16 +85,21 @@ import numpy as np
 import time
 
 class Visualizer():
-    def __init__(self):
+    def __init__(self,name):
         self.vis = visdom.Visdom(env='wcd')
         self.display_id = 1
+        self.name = name
 
     # |visuals|: dictionary of images to display or save
     def display_current_results(self, visuals):
 
         idx = 1
         for label, image_numpy in visuals.items():
-            self.vis.image(image_numpy.transpose([2,0,1]), opts=dict(title=label),
+            if image_numpy.shape[2]==1:
+                self.vis.image(image_numpy.squeeze(2), opts=dict(title=label),
+                               win=self.display_id + idx)
+            else:
+                self.vis.image(image_numpy.transpose(2,0,1), opts=dict(title=label),
                                win=self.display_id + idx)
             idx += 1
 
@@ -121,7 +126,7 @@ class Visualizer():
             message += '%s: %.3f ' % (k, v)
 
         print(message)
-        with open(self.log_name, "a") as log_file:
-            log_file.write('%s\n' % message)
+        #with open(self.log_name, "a") as log_file:
+        #    log_file.write('%s\n' % message)
 
 
