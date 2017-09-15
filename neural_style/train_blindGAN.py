@@ -7,7 +7,7 @@ import  torch.nn as nn
 from collections import OrderedDict
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-from utils import print_params_num, ImagePool, tensor2im
+from utils import print_params_num, ImagePool, tensor2im, tensor2im_tanh
 import draw
 from dataFolder import BMVC_blur_psf_orig_Folder
 import models
@@ -142,7 +142,7 @@ class blindGAN():
         # weight: outxinxkxk shoud be 8x1xkxk ,orig should be 1x8xhxw.
         self.loss_G_cycle = self.criterionGenerate(self.fake_blur,self.real_blur) * self.opt.lambda3
 
-        self.loss_G =  self.loss_G_gen + self.loss_G_id + self.loss_G_cycle # +self.loss_G_GAN
+        self.loss_G = self.loss_G_gen + self.loss_G_id +self.loss_G_GAN #+ self.loss_G_cycle
         self.loss_G.backward()
 
     def optimize_parameters(self):
@@ -171,10 +171,10 @@ class blindGAN():
                self.loss_G_cycle.data[0] + self.loss_D_real.data[0] + self.loss_D_fake.data[0]
 
     def get_current_visuals(self):
-        real_blur = tensor2im(self.real_blur.data)
-        fake_blur = tensor2im(self.fake_blur.data)
-        fake_psf = tensor2im(self.fake_psf.data)
-        real_psf = tensor2im(self.real_psf.data)
+        real_blur = tensor2im_tanh(self.real_blur.data)
+        fake_blur = tensor2im_tanh(self.fake_blur.data)
+        fake_psf = tensor2im_tanh(self.fake_psf.data)
+        real_psf = tensor2im_tanh(self.real_psf.data)
         return OrderedDict([('real_blur', real_blur), ('fake_blur', fake_blur),('fake_psf', fake_psf), ('real_psf', real_psf)])
 
 

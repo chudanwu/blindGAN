@@ -1,6 +1,7 @@
 import torch
 import torch.nn.init
 from torch.autograd import Variable
+import torch.nn.functional as F
 
 class GNet(torch.nn.Module):
     '''
@@ -54,7 +55,7 @@ class GpsfNet(torch.nn.Module):
         GNet for generate unnorm psf of certain size(1x29x29), value in (0,1)
         '''
 
-    def __init__(self, mode='RGB', out_c=1,resblock_num=8, downscale=2-1,norm_mode='IN',drop_out=None):
+    def __init__(self, mode='RGB', out_size=29,out_c=1,resblock_num=8, downscale=2-1,norm_mode='IN',drop_out=None):
         super(GpsfNet, self).__init__()
         if mode is 'Y' or mode is 'L':
             in_c = 1
@@ -68,17 +69,71 @@ class GpsfNet(torch.nn.Module):
             [ResidualBlock(reschannel, norm_mode=norm_mode,drop_out=drop_out) for resblock in range(resblock_num)])
 
         self.encoder = EncoderBlock(in_c, reschannel, downscale=downscale, norm_mode=norm_mode)
-        activelayer = [ConvLayer(reschannel, out_c, kernel_size=3, stride=1)]#,torch.nn.Sigmoid()]
+        self.lastconv = torch.nn.Sequential(ConvLayer(reschannel, reschannel//4, kernel_size=3, stride=1),torch.nn.ReLU())
+        self.fc = torch.nn.Linear(reschannel//4*out_size*out_size,out_c*out_size*out_size)
+        self.tanh = torch.nn.Tanh()
                             # when output is norm to(mean=0.5,mean=0.5)->TANH
-        self.last = torch.nn.Sequential(*activelayer)
 
     def forward(self, X):
         resin = self.encoder(X)
         y = resin
         for i, res in enumerate(self.resblocks):
             y = res(y)
-        y = self.last(y)
+        y = self.lastconv(y)
+        size = y.size()
+        y = y.view(size[0],-1)
+        y = self.tanh(self.fc(y))
+        y = y.view(size[0],-1,size[2],size[3])
+
         return y
+
+class GNet(torch.nn.Module):
+    '''
+    GNet for generate similar context and same size(channel,height,width)
+    '''
+    def __init__(self, mode='RGB',resblock_num=8,skiplayer = 1,norm_mode = 'IN',deconv_mode='PS',bottle_scale=2,dropout=None):
+        super(GNet, self).__init__()
+        if mode is 'Y' or mode is 'L':
+            channel = 1
+        else :
+            channel = 3
+
+        # Residual layers
+        reschannel = 64
+        self.resblocks = torch.nn.ModuleList([ResidualBlock(reschannel,norm_mode=norm_mode,drop_out=dropout) for resblock in range(resblock_num)])
+
+        self.encoder = EncoderBlock(channel,reschannel,downscale=bottle_scale,norm_mode=norm_mode)
+        self.decoder = DecoderBlock(reschannel,channel,upscale=bottle_scale,norm_mode=norm_mode,deconv_mode=deconv_mode)
+
+        self.skiplayer = skiplayer
+        if skiplayer is not 0:
+            self.mergeconv = ConvLayer(2 * reschannel, reschannel, 3, 1)
+
+        '''暂时只skip一次，用不上下面
+        if self.skiplayer > 0:
+            self.mergeconv = torch.nn.ModuleList()
+            for latter in range(resblock_num // 2, resblock_num, 1):
+                former = resblock_num - 1 - latter
+                if former in self.skiplayer :
+                    print("skiplayer:"+str(former) + ":" + str(latter))
+                    self.mergeconv.append( ConvLayer(2*reschannel,reschannel,3,1) )
+                    '''
+    def forward(self, X):
+        resin = self.encoder(X)
+        y = resin
+        for i, res in enumerate(self.resblocks):
+            y = res(y)
+
+        if self.skiplayer is not 0:
+            y = torch.cat((resin,y),1)
+            y = self.mergeconv(y)
+
+        y = torch.cat((resin, y), 1)
+        y = self.mergeconv(y)
+        y = self.decoder(y)
+        y = y + X
+        return y
+
 
 class DNet(torch.nn.Module):
     '''
@@ -366,3 +421,13 @@ def gram_matrix(y):
     features_t = features.transpose(1, 2)
     gram = features.bmm(features_t) / (ch * h * w)
     return gram
+
+
+class crossEntropy2d(torch.nn.Module):
+    #输入是sigmoid后取值为0-1的
+    def __init__(self):
+        super(crossEntropy2d, self).__init__()
+        self.nllcrit = torch.nn.NLLLoss2d(size_average=True)
+
+    def forward(self, input, target):
+        return self.nllcrit(F.log_softmax(input), target)

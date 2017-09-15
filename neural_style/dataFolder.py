@@ -42,6 +42,59 @@ class trainingFolder(data.Dataset):
     def __len__(self):
         return len(self.imgs)
 
+class randomBlurFolder(data.Dataset):
+    '''
+    random LR-HR-param pair,(parameter of LR is random)
+    '''
+    def __init__(self, root, HR_size, LR_scale=None,
+                 motion_len_max=None,motion_angel_max=180,gauss_max=None,
+                 transform=None, target_transform=None, loader=load_HR_image,mode='L'):
+        super(randomBlurFolder,self).__init__()
+        self.loader = loader
+        self.motion_len_max = motion_len_max
+        self.motion_angel_max = motion_angel_max
+        self.gauss_max = gauss_max
+        self.HR_size = HR_size
+        self.LR_scale = LR_scale
+        self.mode=mode
+        self.transform = transform
+        self.target_transform = target_transform
+        self.imgs = make_dataset(root)
+        if len(self.imgs ) == 0:
+            raise (RuntimeError("Found 0 images in subfolders of: " + root + "\n"
+                                                                             "Supported image extensions are: " + ",".join(
+                IMG_EXTENSIONS)))
+    def __getitem__(self, index):
+        path = self.imgs[index]
+        # training img--content
+        HR = self.loader(path,self.HR_size,mode=self.mode)
+        blur_type = numpy.random.randint(3) #gauss[0] or motion[1] or gauss+motion[2]
+        # target img--reference
+        if self.gauss_max >= 0 and blur_type is not 1:
+            gauss = numpy.random.rand()*self.gauss_max
+        else:
+            gauss = None
+        if self.motion_len_max >0 and blur_type is not 0:
+            motion_len = numpy.random.randint(self.motion_len_max-1)+1
+            motion_angel = numpy.random.randint(self.motion_angel_max)-0.5*self.motion_angel_max
+            motion_kernel, motion_anchor = filters.motion_kernel(motion_len, motion_angel)
+        else:
+            motion_kernel = None
+            motion_anchor =None
+            motion_len = 0
+            motion_angel = 0
+        LR = HR2LR(HR,motion_kernel,motion_anchor,gauss)
+
+        if self.transform is not None:
+            HR = self.transform(HR)
+        if self.target_transform is not None:
+            LR = self.target_transform(LR)
+        params = torch.from_numpy(numpy.array([gauss,motion_len,motion_angel/360]).astype(numpy.float32))
+
+        return HR, LR, params
+
+    def __len__(self):
+        return len(self.imgs)
 
 class BMVCFolder(data.Dataset):
 
@@ -90,8 +143,8 @@ class BMVC_blur_psf_orig_Folder(data.Dataset):
         self.cropsize = opt.img_size
 
         # transform function for -> training tensor
-        self.imgtrans = self.tranformimg(1,crop_size=self.cropsize,norm_flag=False,mean=0.5,std=0.5)
-        self.psfimgtrans = self.tranformimg(1,crop_size=None,norm_flag=False,mean=0.5,std=0.5)
+        self.imgtrans = self.tranformimg(1,crop_size=self.cropsize,norm_flag=True)
+        self.psfimgtrans = self.tranformimg(1,crop_size=None,norm_flag=True)
 
         # img database info: path、name
         self.dir = opt.train_dir
@@ -156,13 +209,13 @@ class BMVC_blur_psf_orig_Folder(data.Dataset):
         if crop_size is not None:
             translist += [transforms.CenterCrop(crop_size)]
         translist += [transforms.ToTensor()]
+        if norm_flag:
+            if self.mode is 'RGB':
+                translist += [transforms.Normalize(mean,std)]
+            elif self.mode is 'L':
+                translist += [transforms.Normalize((mean,mean,mean),(std,std,std))]
         if max_of_range is not 1:
             translist += [transforms.Lambda(lambda x_HR: x_HR.mul(max_of_range))]
-        if norm_flag:
-            if self.mode is 'L':
-                translist += [transforms.Normalize(mean,std)]
-            elif self.mode is 'RGB':
-                translist += [transforms.Normalize((mean,mean,mean),(std,std,std))]
         return transforms.Compose(translist)
 
 

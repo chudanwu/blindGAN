@@ -20,7 +20,7 @@ class Option:
         self.color_mode = 'L' # 'L'by default,'RGB'
 
         # option for loss
-        self.ganloss = 'bce' # mse(use lsgan), bce
+        self.ganloss = 'mse' # mse(use lsgan), bce
         self.lambda1 = 10
         self.generate_loss = 'l1' # mse, L1
         self.lambda2 = 1
@@ -29,7 +29,7 @@ class Option:
 
         # option for training
         self.train_dir = '/home/wcd/LinkToMyLib/Datas/BMVC_large_patches'
-        self.dropout = 0.5
+        self.dropout = None
         self.optimize_mode = 'admm'
         self.lr = 1e-3
         self.niter = 100 # num of iter at starting learning rate')
@@ -39,7 +39,7 @@ class Option:
         self.interval_log = 100
         self.interval_vis = 200
         self.interval_save = 1000
-        self.batch_size = 8
+        self.batch_size = 4
         self.ckpt_dir = 'ckpt/'
         self.beta1 = 0.5 #momentum term of adam
 

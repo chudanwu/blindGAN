@@ -6,6 +6,7 @@ import numpy as np
 
 # 生成卷积核和锚点
 def motion_kernel(length, angle):
+    #print([length,angle])
     EPS = np.finfo(float).eps
     alpha = (angle - math.floor(angle / 180) * 180) / 180 * math.pi
     half = length / 2
@@ -47,7 +48,7 @@ def motion_kernel(length, angle):
         psf1 = np.fliplr(psf1)
         anchor = (psf1.shape[1] - 1, psf1.shape[0] - 1)
 
-    elif anchor < -90:  # 同理：往左下角移动
+    elif angle < -90:  # 同理：往左下角移动
         psf1 = np.flipud(psf1)
         anchor = (0, psf1.shape[0] - 1)
 
@@ -55,8 +56,12 @@ def motion_kernel(length, angle):
     return kernel, anchor
 
 def motion_blur(img,kernel, anchor):
-    img = cv2.filter2D(np.array(img), -1, kernel, anchor=anchor)
-    return PIL.Image.fromarray(img)
+    if kernel.size>1:
+        #print([kernel,anchor])
+        img = cv2.filter2D(np.array(img), -1, kernel, anchor=anchor)
+        return PIL.Image.fromarray(img)
+    else:
+        return img
 
 
 def gauss_blur(img,sigma,kernel=5):
