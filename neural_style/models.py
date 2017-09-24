@@ -2,7 +2,7 @@ import torch
 import torch.nn.init
 from torch.autograd import Variable
 import torch.nn.functional as F
-
+import numpy as np
 class GNet(torch.nn.Module):
     '''
     GNet for generate similar context and same size(channel,height,width)
@@ -50,6 +50,83 @@ class GNet(torch.nn.Module):
         y = y + X
         return y
 
+
+class condition_SRNet(torch.nn.Module):
+    def __init__(self,channelofparams=3,mode='L',resblock_num=18,skiplayer = 1,norm_mode = 'IN',deconv_mode='US',
+                 bottle_scale=2,drop_out=None,avtivate_mode='relu'):
+        super(condition_SRNet, self).__init__()
+        if mode is 'Y' or mode is 'L':
+            channel = 1+channelofparams
+        else :
+            channel = 3+channelofparams
+        # Initial convolution layers
+
+        reschannel = 64
+        # Residual layers
+        #scale means times of double img size
+        self.resblocks = torch.nn.ModuleList([ResidualBlock(reschannel,norm_mode=norm_mode,drop_out=drop_out,activate_mode=avtivate_mode) for resblock in range(resblock_num)])
+        self.encoder = EncoderBlock(channel, reschannel, downscale=bottle_scale, norm_mode=norm_mode)
+        self.decoder = DecoderBlock(reschannel, channel-channelofparams, upscale=bottle_scale, norm_mode=norm_mode,
+                                    deconv_mode=deconv_mode)
+
+        self.skiplayer = skiplayer
+        if skiplayer is not 0:
+            self.mergeconv = ConvLayer(2 * reschannel, reschannel, 3, 1)
+
+        '''暂时只skip一次，用不上下面
+        if self.skiplayer > 0:
+            self.mergeconv = torch.nn.ModuleList()
+            for latter in range(resblock_num // 2, resblock_num, 1):
+                former = resblock_num - 1 - latter
+                if former in self.skiplayer :
+                    print("skiplayer:"+str(former) + ":" + str(latter))
+                    self.mergeconv.append( ConvLayer(2*reschannel,reschannel,3,1) )
+                    '''
+    def forward(self, X,c):
+        #print([X.size(),c.size()])
+        resin = self.encoder(torch.cat((X,c),1))
+        y = resin
+        for i, res in enumerate(self.resblocks):
+            y = res(y)
+
+        if self.skiplayer is not 0:
+            y = torch.cat((resin,y),1)
+            y = self.mergeconv(y)
+
+        y = torch.cat((resin, y), 1)
+        y = self.mergeconv(y)
+        y = self.decoder(y)
+        y = y + X
+        return y
+
+class condition_LRNet(torch.nn.Module):
+    def __init__(self,channelofparams,mode='L',resblock_num=8,norm_mode = 'IN',drop_out=None,avtivate_mode='leakyrelu'):
+        super(condition_LRNet,self).__init__()
+        if mode is 'Y' or mode is 'L':
+            channel = 1
+        else :
+            channel = 3
+        reschannel = 64
+        # Initial convolution layers
+        model = [ConvLayer(channel, reschannel, 7, 1),
+                 torch.nn.BatchNorm2d(reschannel),
+                 torch.nn.LeakyReLU(0.2, True)]
+
+        # Residual layers
+        #scale means times of double img size
+        resblocks = [ResidualBlock(reschannel,norm_mode=norm_mode,drop_out=drop_out,activate_mode=avtivate_mode) for resblock in range(resblock_num)]
+        model += resblocks
+
+        model += [ConvLayer(reschannel, channelofparams,3, 1)]
+        model += [torch.nn.Sigmoid()]
+
+        self.model = torch.nn.Sequential(*model)
+
+    def forward(self, X):
+        return self.model(X)
+
+
+
 class GpsfNet(torch.nn.Module):
     '''
         GNet for generate unnorm psf of certain size(1x29x29), value in (0,1)
@@ -86,6 +163,8 @@ class GpsfNet(torch.nn.Module):
         y = y.view(size[0],-1,size[2],size[3])
 
         return y
+
+
 
 class GNet(torch.nn.Module):
     '''
@@ -258,11 +337,14 @@ class ResidualBlock(torch.nn.Module):
         introduced in: https://arxiv.org/abs/1512.03385
         recommended architecture: http://torch.ch/blog/2016/02/04/resnets.html
     """
-    def __init__(self, channels, norm_mode=None, drop_out=None):
+    def __init__(self, channels, norm_mode=None, drop_out=None,activate_mode='relu'):
         super(ResidualBlock, self).__init__()
         self.conv1 = ConvLayer(channels, channels, kernel_size=3, stride=1)
         self.conv2 = ConvLayer(channels, channels, kernel_size=3, stride=1)
-        self.relu = torch.nn.ReLU()
+        if activate_mode is 'relu':
+            self.relu = torch.nn.ReLU()
+        else:# activate_mode is 'leakyrelu':
+            self.relu = torch.nn.LeakyReLU(0.2,True)
         self.norm_flag = False
         self.dropout_flag =False
         if norm_mode is not None:
@@ -288,6 +370,7 @@ class ResidualBlock(torch.nn.Module):
 
         out = out + x
         return out
+
 
 
 class EncoderBlock(torch.nn.Module):
@@ -336,11 +419,11 @@ class DecoderBlock(torch.nn.Module):
                 if norm_mode is not None:
                     self.normlist.append(create_norm_layer(layer_out_c,norm_mode))
             layer_in_c = layer_out_c
-        self.lastlayer=torch.nn.Sequential(
-            [
-                ConvLayer(layer_out_c, out_c, kernel_size=3, stride=1),
-                torch.nn.ReLU()
-            ])
+
+        lastlayer = []
+        lastlayer += [ConvLayer(layer_out_c, out_c, kernel_size=3, stride=1)]
+        lastlayer += [torch.nn.Sigmoid()]
+        self.lastlayer = torch.nn.Sequential(*lastlayer )
 
     def forward(self, x):
         out = x
@@ -349,7 +432,7 @@ class DecoderBlock(torch.nn.Module):
             if self.normlist is not None:
                 out = self.normlist[i](out)
             out = self.relu(out)
-        self.lastlayer(out)
+        out = self.lastlayer(out)
         return out
 
 
@@ -364,7 +447,7 @@ class UpsampleConvLayer(torch.nn.Module):
         super(UpsampleConvLayer, self).__init__()
         self.upsample = upsample
         if upsample:
-            self.upsample_layer = torch.nn.UpsamplingNearest2d(scale_factor=upsample)
+            self.upsample_layer = torch.nn.Upsample(scale_factor=upsample)
         reflection_padding = kernel_size // 2
         self.reflection_pad = torch.nn.ReflectionPad2d(reflection_padding)
         self.conv2d = torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride)

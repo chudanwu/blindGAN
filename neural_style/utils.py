@@ -78,10 +78,18 @@ def default_loader(path):
 
 # transfer HR PIL img to LR PIL img
 def HR2LR(img,motion_kernel=None,motion_anchor=None,gauss=None,scale=None):
-    if (motion_kernel is not None) and (motion_anchor is not None):
-        img = filters.motion_blur(img,motion_kernel,motion_anchor)
-    if gauss is not None and gauss > 0:
-        img = filters.gauss_blur(img,gauss)
+    if (motion_kernel is not None and motion_kernel.size>1):
+        if gauss is not None and gauss > 0: #gauss+motion
+            mimg = filters.motion_blur(img, motion_kernel, motion_anchor)
+            gimg = filters.gauss_blur(img,gauss)
+            m_weight = 0.5
+            g_weight = 0.5
+            img = filters.fuseimg([m_weight,g_weight],[mimg,gimg])
+        else: #motion
+            img = filters.motion_blur(img,motion_kernel,motion_anchor)
+    else:
+        if gauss is not None and gauss > 0: #gauss
+            img = filters.gauss_blur(img,gauss)
     if scale is not None:
         img = img.resize((int(img.size[0] / scale), int(img.size[1] / scale)), Image.ANTIALIAS)
     return img
@@ -290,7 +298,7 @@ def print_params_num(net):
 
 # tensor -1-1 cxhxw to np 0-255 hxwxc
 def tensor2im_tanh(image_tensor, imtype=numpy.uint8):
-    image_numpy = image_tensor[0].cpu().float().numpy()
+    image_numpy = image_tensor[0].clamp(0, 255).cpu().float().numpy()
     image_numpy = (numpy.transpose(image_numpy, (1, 2, 0)) + 1) / 2.0 * 255.0
     return image_numpy.astype(imtype)
 

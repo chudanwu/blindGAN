@@ -1,6 +1,7 @@
 import filters
 from utils import load_HR_image,HR2LR,make_dataset,IMG_EXTENSIONS
 import numpy
+import math
 import torch
 import torch.utils.data as data
 from PIL import Image
@@ -47,7 +48,7 @@ class randomBlurFolder(data.Dataset):
     random LR-HR-param pair,(parameter of LR is random)
     '''
     def __init__(self, root, HR_size, LR_scale=None,
-                 motion_len_max=None,motion_angel_max=180,gauss_max=None,
+                 motion_len_max=None,motion_angel_max=360,gauss_max=None,
                  transform=None, target_transform=None, loader=load_HR_image,mode='L'):
         super(randomBlurFolder,self).__init__()
         self.loader = loader
@@ -68,33 +69,99 @@ class randomBlurFolder(data.Dataset):
         path = self.imgs[index]
         # training img--content
         HR = self.loader(path,self.HR_size,mode=self.mode)
-        blur_type = numpy.random.randint(3) #gauss[0] or motion[1] or gauss+motion[2]
+        blur_type = numpy.random.randint(2) #gauss[0] or motion[1] or gauss+motion[2]
         # target img--reference
         if self.gauss_max >= 0 and blur_type is not 1:
             gauss = numpy.random.rand()*self.gauss_max
         else:
-            gauss = None
+            gauss = 0
         if self.motion_len_max >0 and blur_type is not 0:
             motion_len = numpy.random.randint(self.motion_len_max-1)+1
-            motion_angel = numpy.random.randint(self.motion_angel_max)-0.5*self.motion_angel_max
+            motion_angel = numpy.random.randint(self.motion_angel_max) #-0.5*self.motion_angel_max
             motion_kernel, motion_anchor = filters.motion_kernel(motion_len, motion_angel)
+            motion_x = motion_len*math.cos(math.radians(motion_angel))
+            motion_y = motion_len*math.sin(math.radians(motion_angel))
         else:
             motion_kernel = None
             motion_anchor =None
-            motion_len = 0
-            motion_angel = 0
+            motion_x = 0
+            motion_y = 0
         LR = HR2LR(HR,motion_kernel,motion_anchor,gauss)
 
         if self.transform is not None:
             HR = self.transform(HR)
         if self.target_transform is not None:
             LR = self.target_transform(LR)
-        params = torch.from_numpy(numpy.array([gauss,motion_len,motion_angel/360]).astype(numpy.float32))
-
+        params = torch.from_numpy(numpy.array([gauss,motion_x,motion_y]).astype(numpy.float32))
+        #print([gauss,motion_x,motion_y])
         return HR, LR, params
 
     def __len__(self):
         return len(self.imgs)
+
+class vaeSRFolder(data.Dataset):
+    '''
+    random LR-HR-param pair,(parameter of LR is random)
+    '''
+    def __init__(self, opt):
+        super(vaeSRFolder,self).__init__()
+        self.motion_len_max = opt.motion_len_max
+        self.motion_angle_max = opt.motion_angle_max
+        self.gauss_max = opt.gauss_max
+        self.img_size = opt.img_size
+        self.mode= opt.color_mode
+        self.imgtrans = self.tranformimg(max_of_range=1,crop_size=None,norm_flag=False,mean=0.5,std=0.5)
+        self.imgs = make_dataset(opt.train_dir)
+        if len(self.imgs ) == 0:
+            raise (RuntimeError("Found 0 images in subfolders of: " + opt.train_dir + "\n"
+                                                                             "Supported image extensions are: " + ",".join(
+                IMG_EXTENSIONS)))
+    def __getitem__(self, index):
+        path = self.imgs[index]
+        # training img--content
+        HR = load_HR_image(path,self.img_size,mode=self.mode)
+        blur_type = numpy.random.randint(2) #gauss[0] or motion[1] or gauss+motion[2]
+        # target img--reference
+        if self.gauss_max >= 0 and blur_type is not 1:
+            gauss = numpy.random.rand()*self.gauss_max
+        else:
+            gauss = 0
+        if self.motion_len_max >0 and blur_type is not 0:
+            motion_len = numpy.random.randint(self.motion_len_max-1)+1
+            motion_angel = numpy.random.randint(self.motion_angle_max) #-0.5*self.motion_angel_max
+            motion_kernel, motion_anchor = filters.motion_kernel(motion_len, motion_angel)
+            motion_x = motion_len*math.cos(math.radians(motion_angel))
+            motion_y = motion_len*math.sin(math.radians(motion_angel))
+        else:
+            motion_kernel = None
+            motion_anchor =None
+            motion_x = 0
+            motion_y = 0
+        LR = HR2LR(HR,motion_kernel,motion_anchor,gauss)
+
+        if self.imgtrans is not None:
+            HR = self.imgtrans(HR)
+            LR = self.imgtrans(LR)
+        params = torch.from_numpy(numpy.array([gauss,motion_x,motion_y]).astype(numpy.float32))
+        #print([gauss,motion_x,motion_y])
+        return HR, LR, params
+
+    def __len__(self):
+        return len(self.imgs)
+
+    def tranformimg(self,max_of_range=1,crop_size=None,norm_flag=False,mean=0.5,std=0.5):
+        translist=[]
+        if crop_size is not None:
+            translist += [transforms.CenterCrop(crop_size)]
+        translist += [transforms.ToTensor()]
+        if norm_flag:
+            if self.mode is 'RGB':
+                translist += [transforms.Normalize(mean,std)]
+            elif self.mode is 'L':
+                translist += [transforms.Normalize((mean,mean,mean),(std,std,std))]
+        if max_of_range is not 1:
+            translist += [transforms.Lambda(lambda x_HR: x_HR.mul(max_of_range))]
+        return transforms.Compose(translist)
 
 class BMVCFolder(data.Dataset):
 

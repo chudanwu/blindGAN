@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import numpy as np
+import math
 import torch
 from torch.autograd import Variable
 from torch.optim import Adam
@@ -113,7 +114,7 @@ def train(args):
                                                    gauss=args.gauss,
                                                    scale=None, mode='L'))
     ref_c = Variable(create_condition(1, torch.from_numpy(
-        np.array([args.gauss, args.motion_len, args.motion_angel / 180])).unsqueeze(0), h=ref_LR.size()[2],
+        np.array([args.gauss, args.motion_x, args.motion_y])).unsqueeze(0), h=ref_LR.size()[2],
                                       w=ref_LR.size()[3]), requires_grad=False)
     if args.cuda:
         ref_c = ref_c.cuda()
@@ -145,8 +146,8 @@ def train(args):
             n_batch = len(x_HR)
             count += n_batch
             optimizer.zero_grad()
-            x_condition = create_condition(n_batch,x_params,args.HR_size,args.HR_size)
-
+            x_condition = create_condition(n_batch, x_params, args.HR_size, args.HR_size, gauss_max=args.gauss_max,
+                                           motion_x_max=args.motion_len_max, motion_y_max=args.motion_len)
             if args.cuda:
                 x_HR, x_LR ,x_condition= x_HR.cuda(), x_LR.cuda(),x_condition.cuda()
             x_HR, x_LR ,x_condition= Variable(x_HR), Variable(x_LR), Variable(x_condition)
@@ -249,7 +250,8 @@ def validate(args, net, val_loader, loss_function):
     count = 0
     for batch_id, (v_HR, v_LR, v_param) in enumerate(val_loader):
         n_batch = len(v_HR)
-        v_condition = create_condition(n_batch,v_param, args.HR_size,args.HR_size)
+        v_condition = create_condition(n_batch,v_param, args.HR_size,args.HR_size,gauss_max=args.gauss_max,
+                                           motion_x_max=args.motion_len_max, motion_y_max=args.motion_len)
         count += n_batch
         if args.cuda:
             v_HR, v_LR ,v_condition= v_HR.cuda(), v_LR.cuda(), v_condition.cuda()
@@ -323,7 +325,7 @@ def main():
     args.dataset = '/home/wcd/LinkToMyLib/Datas/train2014'
     args.valset = "/media/library/wcd/Datas/BSDS/BSDS300/images/train"
     args.style_image = "/home/wcd/Desktop/text.jpg"
-    args.epochs = 5
+    args.epochs = 3
     args.batch_size = 8
     args.lr = 1e-4
     args.content_weight = 1
@@ -339,14 +341,16 @@ def main():
     args.LR_scale = 1
     args.motion_len = 5
     args.motion_angel = 33
+    args.motion_x = args.motion_len*math.cos(math.radians(args.motion_angel))
+    args.motion_y = args.motion_len*math.sin(math.radians(args.motion_angel))
     args.gauss = 2.5
     args.gauss_max = 2.5
     args.motion_len_max = 7
-    args.motion_angel_max = 180
+    args.motion_angel_max = 90
     args.mode = 'L'
     args.normalizebatch_flag = False
     args.deconv_mode = "US"
-    args.resblobk_num = 18
+    args.resblobk_num = 12
     args.lossfun = "l1"
     args.model_name = 'condition_SRnet'
 

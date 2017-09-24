@@ -57,12 +57,12 @@ class TransformerNet(torch.nn.Module):
         return y
 
 class condition_TransformerNet(torch.nn.Module):
-    def __init__(self, mode='RGB',resblock_num=8,skiplayer = 1,IN_flag = True,deconv_mode='PS'):
+    def __init__(self, mode='L',resblock_num=18,skiplayer = 1,IN_flag = True,deconv_mode='PS',channelofparams=3):
         super(condition_TransformerNet, self).__init__()
         if mode is 'Y' or mode is 'L':
-            channel = 1+5
+            channel = 1+channelofparams
         else :
-            channel = 3+5
+            channel = 3+channelofparams
         # Initial convolution layers
 
         reschannel = 64
@@ -71,11 +71,11 @@ class condition_TransformerNet(torch.nn.Module):
         if IN_flag is True:
             self.resblocks = torch.nn.ModuleList([ResidualBlock_IN(reschannel) for resblock in range(resblock_num)])
             self.encoder = EncoderBlock_IN(channel,reschannel,scale=2)
-            self.decoder = DecoderBlock_IN(reschannel,channel-5,scale=2,deconv_mode=deconv_mode)
+            self.decoder = DecoderBlock_IN(reschannel,channel-channelofparams,scale=2,deconv_mode=deconv_mode)
         else:
             self.resblocks = torch.nn.ModuleList([ResidualBlock(reschannel) for resblock in range(resblock_num)])
             self.encoder = EncoderBlock(channel,reschannel,scale=2)
-            self.decoder = DecoderBlock(reschannel,channel-5, scale=2,deconv_mode=deconv_mode)
+            self.decoder = DecoderBlock(reschannel,channel-channelofparams, scale=2,deconv_mode=deconv_mode)
 
         self.skiplayer = skiplayer
         if skiplayer is not 0:
@@ -90,10 +90,6 @@ class condition_TransformerNet(torch.nn.Module):
                     print("skiplayer:"+str(former) + ":" + str(latter))
                     self.mergeconv.append( ConvLayer(2*reschannel,reschannel,3,1) )
                     '''
-
-
-
-
     def forward(self, X,c):
         #print([X.size(),c.size()])
         resin = self.encoder(torch.cat((X,c),1))
@@ -111,8 +107,37 @@ class condition_TransformerNet(torch.nn.Module):
         y = y + X
         return y
 
+class condition_lrNet(torch.nn.Module):
+    def __init__(self,mode='L',resblock_num=8,IN_flag = False,channelofparams=3):
+        super(condition_lrNet,self).__init__()
+        if mode is 'Y' or mode is 'L':
+            channel = 1
+        else :
+            channel = 3
+        reschannel = 64
+        layernum = 3
+        # Initial convolution layers
+        model = [ConvLayer(channel, reschannel, 7, 1),
+                 torch.nn.BatchNorm2d(reschannel),
+                 torch.nn.LeakyReLU(0.2, True)]
 
-def create_condition(batch_n,batch_params,h,w): # batch,params
+        # Residual layers
+        #scale means times of double img size
+        if IN_flag is True:
+            resblocks = [ResidualBlock_IN(reschannel) for resblock in range(resblock_num)]
+        else:
+            resblocks = [ResidualBlock_BN(reschannel) for resblock in range(resblock_num)]
+        model += resblocks
+
+        model += [ConvLayer(reschannel, channelofparams,3, 1)]
+        model += [torch.nn.Sigmoid()]
+
+        self.model = torch.nn.Sequential(*model)
+
+    def forward(self, X):
+        return self.model(X)
+
+def create_condition_label_param(batch_n,batch_params,h,w): # batch,params
     if batch_n is not batch_params.shape[0]:
         print('error!')
     condition_class = torch.zeros((batch_params.shape[0],2,h,w))
@@ -120,27 +145,49 @@ def create_condition(batch_n,batch_params,h,w): # batch,params
     for i in range(batch_params.shape[0]): # in each batch
         params = batch_params[i]
         gauss = params[0]
-        motion_len = params[1]
-        motion_ang = params[2]
+        motion_x = params[1]
+        motion_y = params[2]
         if gauss is not None and gauss > 0:
-            if motion_len is not None:  # gauss + motion
+            if motion_x >0 and motion_y >0:  # gauss + motion
                 blurclass = np.array([[0.5], [0.5]])
             else:  # gauss
                 blurclass = np.array([[1], [0]])
-                motion_len = 0
-                motion_ang = 0
+                motion_x = 0
+                motion_y = 0
         else:
-            if motion_len is not None and motion_len > 0:  # motion
+            if motion_x > 0 and motion_y > 0:  # motion
                 blurclass = np.array([[0], [1]])
                 gauss = 0
             else:  # none
                 blurclass = np.array([[0], [0]])
                 gauss = 0
-                motion_len = 0
-                motion_ang = 0
+                motion_x = 0
+                motion_y = 0
         condition_class[i] = torch.from_numpy(blurclass).unsqueeze(1).expand(2,h,w).contiguous()
-        condition_param[i] = torch.from_numpy(np.array([gauss,motion_len,motion_ang])).unsqueeze(1).unsqueeze(1).expand(3,h, w).contiguous()
+        condition_param[i] = torch.from_numpy(np.array([gauss,motion_x,motion_y])).unsqueeze(1).unsqueeze(1).expand(3,h, w).contiguous()
     return torch.cat((condition_class,condition_param),1).contiguous()
+
+def create_condition(batch_n,batch_params,h,w,gauss_max=1,motion_x_max=1,motion_y_max=1): # batch,params
+    if batch_n is not batch_params.shape[0]:
+        print('error!:batch size is not consistance with patch-params')
+    condition_param = torch.zeros((batch_params.shape[0],3, h, w))
+    for i in range(batch_params.shape[0]): # in each batch
+        params = batch_params[i]
+        gauss = params[0]
+        motion_x = params[1]
+        motion_y = params[2]
+        if gauss is None or gauss is 0:
+            gauss = 0
+        if motion_x is 0 and motion_y is 0:
+            motion_x = 0
+            motion_y = 0
+        gauss = gauss / gauss_max
+        motion_x = motion_x / motion_x_max
+        motion_y = motion_y / motion_y_max
+        condition_param[i] = torch.from_numpy(np.array([gauss,motion_x,motion_y])).unsqueeze(1).unsqueeze(1).expand(3,h, w).contiguous()
+    #print(condition_param.shape)
+    return condition_param.contiguous()
+
 
 class ConvLayer(torch.nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride):
@@ -188,6 +235,22 @@ class ResidualBlock(torch.nn.Module):
         self.conv1 = ConvLayer(channels, channels, kernel_size=3, stride=1)
         self.conv2 = ConvLayer(channels, channels, kernel_size=3, stride=1)
         self.relu = torch.nn.ReLU()
+
+    def forward(self, x):
+        residual = x
+        out = self.conv1(x)
+        out = self.relu(out)
+        out = self.conv2(out)
+        out = out + residual
+        return out
+
+class ResidualBlock_BN(torch.nn.Module):
+
+    def __init__(self, channels):
+        super(ResidualBlock_BN, self).__init__()
+        self.conv1 = ConvLayer(channels, channels, kernel_size=3, stride=1)
+        self.conv2 = ConvLayer(channels, channels, kernel_size=3, stride=1)
+        self.relu = torch.nn.LeakyReLU(0.2,True)
 
     def forward(self, x):
         residual = x

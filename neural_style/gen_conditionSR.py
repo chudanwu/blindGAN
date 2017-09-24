@@ -2,6 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 import torch
+import math
 from torch.autograd import Variable
 from torchvision import transforms
 
@@ -16,13 +17,13 @@ make_lr_flag = True
 refdir = "/home/wcd/Projects/Pytorch-examples/fast_neural_style/images/banckmark"
 lrdir = "/home/wcd/Projects/Pytorch-examples/fast_neural_style/images/style-images/SR"
 
-modelname = 'condition_SRnet_L_unorm_US_l1_gaussNmotion_3class.model'
+modelname = 'condition_SRnet_L_len5_ang33_g2.5_unorm_US_l1.model'
 modeldir = os.path.join("/home/wcd/Projects/Pytorch-examples/fast_neural_style/neural_style/ckpt",modelname)
 
 netdict = torch.load(modeldir)
 opt = netdict["args"]
 
-net = netdict["net"]
+net = netdict["net"].eval()
 net.load_state_dict(netdict["state_dict"])
 net.cuda()
 
@@ -77,12 +78,12 @@ def save_image(filename, data, mode):
         img = Image.fromarray(img, 'L')
     img.save(filename)
 
-def main():
+def main1():
 
     mode = opt.mode
-    params_min=[0.5,1,0]
-    params_max=[2.5,7,90]
-    params_num=[10,7,4]
+    params_min=[0.5,3,0]
+    params_max=[2.5,8,145]
+    params_num=[5,5,8]
     gausslist = np.linspace(params_min[0],params_max[0],params_num[0])
     motion_lenlist = np.linspace(params_min[1],params_max[1],params_num[1])
     motion_anglelist = np.linspace(params_min[2],params_max[2],params_num[2])
@@ -104,8 +105,34 @@ def main():
 
     return
 
-def culpsnr(refdir,mode,motion_len, motion_angel,gauss,num,printflag=False):
-    argstr="len_{:.1f}ang_{:d}g_{:.1f}".format(motion_len,int(motion_angel),gauss)
+def main():
+
+    mode = opt.mode
+    params_min=[0.5,3,5]
+    params_max=[2.5,8,85]
+    params_num=[10,5,8]
+    len_max = 7
+    gauss_max = 2.5
+    gausslist = np.linspace(params_min[0],params_max[0],params_num[0])
+    motion_lenlist = np.linspace(params_min[1],params_max[1],params_num[1])
+    motion_anglelist = np.linspace(params_min[2],params_max[2],params_num[2])
+    num = 1
+    print("|no.\t|gauss\t|motion_len\t|motion_ang\t|avg PSNR increament\t|avg PSNR\t|")
+
+    for j,len in enumerate(motion_lenlist):
+        for k,ang in enumerate(motion_anglelist):
+            culpsnr(refdir,mode, len, ang, 0,num,printflag=False,len_max=len_max,gauss_max=gauss_max)
+            num+=1
+
+    for i,g in enumerate(gausslist):
+        culpsnr(refdir, mode, 0.0, 0.0, g, num, printflag=False,len_max=len_max,gauss_max=gauss_max)
+        num += 1
+
+    return
+
+def culpsnr(refdir,mode,motion_len, motion_angel,gauss,num,printflag=False,gauss_max=1,len_max=1):
+    argstr="len_{:d}ang_{:d}g_{:.1f}".format(int(motion_len),int(motion_angel),gauss)
+
     outdir = os.path.join(refdir,argstr)
     if not os.path.exists(outdir):
         os.mkdir(outdir)
@@ -132,13 +159,15 @@ def culpsnr(refdir,mode,motion_len, motion_angel,gauss,num,printflag=False):
             hrIMG = utils.load_HR_image(hrIMGdir, size=None, mode=mode)
             motion_kernel, motion_anchor = filters.motion_kernel(motion_len, motion_angel)
             lrIMG = utils.HR2LR(hrIMG, motion_kernel, motion_anchor, gauss)
-
+            motion_x = math.cos(math.radians(motion_angel))*motion_len
+            motion_y = math.sin(math.radians(motion_angel))*motion_len
             if make_lr_flag is True:
                 lrIMG.save(lrIMGdir)
             lr = img2Variable(lrIMG).cuda()
             c = Variable(LRnet.create_condition(1, torch.from_numpy(
-                np.array([gauss, motion_len, motion_angel / 180])).unsqueeze(0), h=lr.size()[2],
-                                                w=lr.size()[3]), volatile=True).cuda()
+                np.array([gauss, motion_x, motion_y])).unsqueeze(0), h=lr.size()[2],
+                                                w=lr.size()[3],gauss_max=gauss_max,
+                                           motion_x_max=len_max, motion_y_max=len_max), volatile=True).cuda()
 
             if norm_flag is True:
                 lr = utils.normalize_batch(lr)
