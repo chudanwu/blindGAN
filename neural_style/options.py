@@ -68,7 +68,7 @@ class Option:
 class vaeSROption:
     def __init__(self):
         # option for SR
-        self.SR_block_num = 18  # 8 by default
+        self.SR_block_num = 20  # 8 by default
         self.SR_bottle_scale = 2  # 2(twice) by default
         self.SR_norm_mode = 'IN'  # 'IN' instance norm by default, 'BN' batch norm
 
@@ -81,27 +81,27 @@ class vaeSROption:
         self.param_num = 3  # gauss,motion_angle,motion_len
         self.gauss_max = 3.0
         self.motion_len_max = 8
-        self.motion_angle_max = 90
+        self.motion_angle_max = 89
         self.motion_x_max = self.motion_len_max
         self.motion_y_max = self.motion_len_max
+        self.tanhoutput = True #tanh:-1~1(use norm) sigmoid:0-1 relu:0-255
 
         # option for loss
-        self.SR_loss = 'mse'  # mse, L1
-        self.P_loss = 'mse'  # mse, L1
+        self.SR_loss = 'mse'  # mse, l1
+        self.P_loss = 'mse'  # mse, l1
 
         # option for training
         self.train_dir = '/home/wcd/LinkToMyLib/Datas/train2014'
         self.val_dir = "/media/library/wcd/Datas/BSDS/BSDS300/images/train"
-        self.dropout = 0.5
+        self.dropout = None
         self.optimize_mode = 'admm'
         self.lr = 1e-3
-        self.niter = 100  # num of iter at starting learning rate')
-        self.niter_decay = 100  # num of iter to linearly decay learning rate to zero')
-        self.epoch = 2
+        self.niter = 8  # num of iter at starting learning rate')
+        self.niter_decay = 10  # num of iter to linearly decay learning rate to zero')
         self.interval_eval = 200
         self.interval_log = 100
         self.interval_vis = 200
-        self.interval_save = 1000
+        self.interval_save = 80000
         self.batch_size = 8
         self.ckpt_dir = 'ckpt/'
         self.beta1 = 0.5  # momentum term of adam
@@ -112,6 +112,7 @@ class vaeSROption:
         # visiual setting
         self.vis_imgpath = '/home/wcd/LinkToMyLib/Datas/BMVC_large_patches/0007521_orig.png'
 
+        self.seperate_model = '/home/wcd/Desktop/to_neural_style/ckpt/sepe4_st320000_vaeSR_gauss_3.0_mang_89_mlen8_SRIN_block20_PBN_block8.model'
         self.cudaid = 1
         self.training_fin = False
         self.training_con = True

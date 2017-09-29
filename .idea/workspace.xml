@@ -2,122 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dc007c31-3ccf-4a7a-b52a-de90b37b3815" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neural_style/conditionLRnet.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neural_style/gen_conditionLR.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neural_style/train_vaeSRnet.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st10000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st10000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st1000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st1000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st11000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st11000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st112blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st12000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st12000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st120blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st128blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st13000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st13000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st136blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st14000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st14000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st144blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st15000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st152blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st16000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st160blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st168blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st17000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st176blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st18000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st184blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st19000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st192blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st20000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st2000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st2000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st21000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st22000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st23000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st24000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st24blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st25000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st26000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st27000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st28000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st2888blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st29000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st30000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st3000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st3000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st31000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st32000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st32blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st33000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st34000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st35000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st36000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st37000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st38000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st39000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st40000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st4000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st4000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st40blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st41000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st42000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st43000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st44000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st45000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st46000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st47000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st48000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st4888blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st48blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st49000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st50000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st5000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st5000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st51000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st52000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st53000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st54000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st55000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st56000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st56blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st57000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st58000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st59000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st60000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st6000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st6000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st61000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st62000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st63000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st64000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st64blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st65000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st66000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st7000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st7000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st72blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st8000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st8000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st80blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st88blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st9000_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st9000blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/e1_st96blindGAN_Lgan_mse_Lid_l1_Lgenmse_GINblock9_DBNlayer2.ckpt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/data.mat" afterPath="$PROJECT_DIR$/neural_style/data.mat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neural_style/test_vaeSRnet.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neural_style/train_SRnet.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/neural_style/ckpt/best_blindGAN_Lgan_bce_Lid_l1_Lgenl1_GINblock9_DBNlayer2.ckpt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/LRnet.py" afterPath="$PROJECT_DIR$/neural_style/LRnet.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/conditionSRnet.py" afterPath="$PROJECT_DIR$/neural_style/conditionSRnet.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/dataFolder.py" afterPath="$PROJECT_DIR$/neural_style/dataFolder.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/filters.py" afterPath="$PROJECT_DIR$/neural_style/filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/gen_conditionSR.py" afterPath="$PROJECT_DIR$/neural_style/gen_conditionSR.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/models.py" afterPath="$PROJECT_DIR$/neural_style/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/options.py" afterPath="$PROJECT_DIR$/neural_style/options.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/train_vaeSRnet.py" afterPath="$PROJECT_DIR$/neural_style/train_vaeSRnet.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neural_style/utils.py" afterPath="$PROJECT_DIR$/neural_style/utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report.md" afterPath="$PROJECT_DIR$/report.md" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -133,24 +27,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="train_vaeSRnet.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/neural_style/train_vaeSRnet.py">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="145" column="51" lean-forward="false" selection-start-line="145" selection-start-column="45" selection-end-line="145" selection-end-column="51" />
+            <state relative-caret-position="572">
+              <caret line="301" column="52" lean-forward="false" selection-start-line="301" selection-start-column="52" selection-end-line="301" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conditionSRnet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/conditionSRnet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="858">
+              <caret line="197" column="27" lean-forward="false" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="27" />
               <folding>
-                <element signature="e#1#12#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
+      <file leaf-file-name="test_vaeSRnet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/test_vaeSRnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="829">
-              <caret line="300" column="48" lean-forward="false" selection-start-line="300" selection-start-column="48" selection-end-line="300" selection-end-column="48" />
-              <folding />
+            <state relative-caret-position="432">
+              <caret line="24" column="88" lean-forward="false" selection-start-line="24" selection-start-column="88" selection-end-line="24" selection-end-column="88" />
+              <folding>
+                <element signature="e#1#22#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -158,22 +64,10 @@
       <file leaf-file-name="options.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/options.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="120" column="139" lean-forward="false" selection-start-line="120" selection-start-column="139" selection-end-line="120" selection-end-column="139" />
+            <state relative-caret-position="405">
+              <caret line="94" column="72" lean-forward="false" selection-start-line="94" selection-start-column="72" selection-end-line="94" selection-end-column="72" />
               <folding>
                 <element signature="e#41#2174#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gen_conditionLR.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neural_style/gen_conditionLR.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="76" column="51" lean-forward="false" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="51" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -182,49 +76,38 @@
       <file leaf-file-name="dataFolder.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_style/dataFolder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="130" column="65" lean-forward="false" selection-start-line="130" selection-start-column="65" selection-end-line="130" selection-end-column="65" />
+            <state relative-caret-position="644">
+              <caret line="163" column="81" lean-forward="false" selection-start-line="163" selection-start-column="25" selection-end-line="163" selection-end-column="81" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#250#1736#0" expanded="false" />
                 <element signature="e#1780#1847#1" expanded="false" />
-                <element signature="e#6412#6433#0" expanded="false" />
-                <element signature="e#7122#8396#0" expanded="false" />
-                <element signature="e#8450#11760#0" expanded="false" />
+                <element signature="e#6479#6500#0" expanded="false" />
+                <element signature="e#7179#8453#0" expanded="false" />
+                <element signature="e#8507#11817#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conditionLRnet.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neural_style/conditionLRnet.py">
+      <file leaf-file-name="LRnet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/LRnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="262" column="23" lean-forward="false" selection-start-line="262" selection-start-column="23" selection-end-line="262" selection-end-column="23" />
+            <state relative-caret-position="-3582">
+              <caret line="77" column="39" lean-forward="false" selection-start-line="77" selection-start-column="27" selection-end-line="77" selection-end-column="39" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#5343#6617#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conditionSRnet.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neural_style/conditionSRnet.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1009">
-              <caret line="157" column="59" lean-forward="false" selection-start-line="157" selection-start-column="49" selection-end-line="157" selection-end-column="63" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/neural_style/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="449" column="51" lean-forward="false" selection-start-line="449" selection-start-column="40" selection-end-line="449" selection-end-column="51" />
+            <state relative-caret-position="325">
+              <caret line="387" column="74" lean-forward="false" selection-start-line="387" selection-start-column="74" selection-end-line="387" selection-end-column="74" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
                 <element signature="e#4969#6321#0" expanded="false" />
@@ -232,9 +115,41 @@
                 <element signature="e#8149#9929#0" expanded="false" />
                 <element signature="e#10193#12509#0" expanded="false" />
                 <element signature="e#12551#13027#0" expanded="false" />
-                <element signature="e#13072#14469#0" expanded="false" />
-                <element signature="e#14514#15614#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="train_vaeSRnet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/train_vaeSRnet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5400">
+              <caret line="323" column="33" lean-forward="false" selection-start-line="323" selection-start-column="23" selection-end-line="323" selection-end-column="33" />
+              <folding>
+                <element signature="e#1#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="train_SRnet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_style/train_SRnet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="241">
+              <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="33" />
+              <folding>
+                <element signature="e#1#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="serialization.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/serialization.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="191" column="0" lean-forward="false" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -268,6 +183,7 @@
       <find>criterionID</find>
       <find>opt.</find>
       <find>lossfun</find>
+      <find>self.SR</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -292,11 +208,14 @@
         <option value="$PROJECT_DIR$/neural_style/gen_conditionLR.py" />
         <option value="$PROJECT_DIR$/neural_style/conditionLRnet.py" />
         <option value="$PROJECT_DIR$/neural_style/LRnet.py" />
+        <option value="$PROJECT_DIR$/neural_style/utils.py" />
         <option value="$PROJECT_DIR$/neural_style/dataFolder.py" />
-        <option value="$PROJECT_DIR$/neural_style/options.py" />
         <option value="$PROJECT_DIR$/neural_style/models.py" />
         <option value="$PROJECT_DIR$/neural_style/train_vaeSRnet.py" />
-        <option value="$PROJECT_DIR$/neural_style/utils.py" />
+        <option value="$PROJECT_DIR$/neural_style/src/train_SRnet.py" />
+        <option value="$PROJECT_DIR$/neural_style/options.py" />
+        <option value="$PROJECT_DIR$/neural_style/train_SRnet.py" />
+        <option value="$PROJECT_DIR$/neural_style/test_vaeSRnet.py" />
       </list>
     </option>
   </component>
@@ -347,6 +266,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fast_neural_style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fast_neural_style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="neural_style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fast_neural_style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fast_neural_style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="neural_style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ckpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -377,43 +332,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train_vaeSRnet">
-    <configuration default="false" name="conditionSRnet" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_style" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="fast_neural_style" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_style/conditionSRnet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="gen_conditionSR" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_style" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="fast_neural_style" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_style/gen_conditionSR.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.test_vaeSRnet">
     <configuration default="false" name="conditionLRnet" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -463,6 +382,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="fast_neural_style" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_style/train_vaeSRnet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test_vaeSRnet.py" type="tests" factoryName="Nosetests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="$USER_HOME$/app/anaconda3/bin/python3.6" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_style" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fast_neural_style" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/neural_style/test_vaeSRnet.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <configuration default="false" name="train_SRnet" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_style" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fast_neural_style" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_style/train_SRnet.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -536,20 +489,39 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.conditionSRnet" />
-      <item index="1" class="java.lang.String" itemvalue="Python.gen_conditionSR" />
-      <item index="2" class="java.lang.String" itemvalue="Python.conditionLRnet" />
-      <item index="3" class="java.lang.String" itemvalue="Python.gen_conditionLR" />
-      <item index="4" class="java.lang.String" itemvalue="Python.train_vaeSRnet" />
+    <configuration default="false" name="test_vaeSRnet" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/app/anaconda3/bin/python3.6" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_style" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fast_neural_style" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_style/test_vaeSRnet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Python.test_vaeSRnet" />
+      <item index="1" class="java.lang.String" itemvalue="Python.conditionLRnet" />
+      <item index="2" class="java.lang.String" itemvalue="Python.gen_conditionLR" />
+      <item index="3" class="java.lang.String" itemvalue="Python.train_vaeSRnet" />
+      <item index="4" class="java.lang.String" itemvalue="Python tests.test_vaeSRnet.py" />
+      <item index="5" class="java.lang.String" itemvalue="Python.train_SRnet" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.train_vaeSRnet" />
-        <item index="1" class="java.lang.String" itemvalue="Python.conditionLRnet" />
-        <item index="2" class="java.lang.String" itemvalue="Python.gen_conditionLR" />
-        <item index="3" class="java.lang.String" itemvalue="Python.gen_conditionSR" />
-        <item index="4" class="java.lang.String" itemvalue="Python.conditionSRnet" />
+        <item index="0" class="java.lang.String" itemvalue="Python.train_SRnet" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.test_vaeSRnet.py" />
+        <item index="2" class="java.lang.String" itemvalue="Python.train_vaeSRnet" />
+        <item index="3" class="java.lang.String" itemvalue="Python.conditionLRnet" />
+        <item index="4" class="java.lang.String" itemvalue="Python.gen_conditionLR" />
       </list>
     </recent_temporary>
   </component>
@@ -583,6 +555,32 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Nosetests_in_test_vaeSRnet_py - 2017.09.26 at 13h 08m 56s.xml">
+      <configuration name="Nosetests in test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_test_vaeSRnet_py - 2017.09.26 at 13h 13m 14s.xml">
+      <configuration name="Nosetests in test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_test_vaeSRnet_py - 2017.09.26 at 13h 14m 48s.xml">
+      <configuration name="Nosetests in test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_test_vaeSRnet_py - 2017.09.26 at 13h 15m 03s.xml">
+      <configuration name="Nosetests in test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="test_vaeSRnet_py - 2017.09.26 at 21h 35m 34s.xml">
+      <configuration name="test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="test_vaeSRnet_py - 2017.09.26 at 21h 36m 01s.xml">
+      <configuration name="test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="test_vaeSRnet_py - 2017.09.26 at 21h 36m 21s.xml">
+      <configuration name="test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="test_vaeSRnet_py - 2017.09.26 at 21h 50m 54s.xml">
+      <configuration name="test_vaeSRnet.py" configurationId="tests" />
+    </history-entry>
+  </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
@@ -599,12 +597,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.06959315" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug Logs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3137045" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24518201" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3843683" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52248394" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869378" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27087796" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25317153" sideWeight="0.6008584" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13789299" sideWeight="0.6008584" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24965133" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44218415" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13458857" sideWeight="0.39914164" order="2" side_tool="true" content_ui="tabs" />
@@ -671,6 +669,26 @@
           <line>164</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/neural_style/test_vaeSRnet.py</url>
+          <line>148</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/neural_style/train_vaeSRnet.py</url>
+          <line>166</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/neural_style/train_vaeSRnet.py</url>
+          <line>164</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/neural_style/test_vaeSRnet.py</url>
+          <line>146</line>
+          <option name="timeStamp" value="95" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -679,7 +697,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="84" />
+      <option name="time" value="96" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -699,33 +717,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#9#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#4969#6321#0" expanded="false" />
-            <element signature="e#6358#8113#0" expanded="false" />
-            <element signature="e#8149#9929#0" expanded="false" />
-            <element signature="e#10193#12509#0" expanded="false" />
-            <element signature="e#12551#13027#0" expanded="false" />
-            <element signature="e#13072#14469#0" expanded="false" />
-            <element signature="e#14514#15614#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/filters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -769,8 +760,6 @@
             <element signature="e#8149#9929#0" expanded="false" />
             <element signature="e#10193#12509#0" expanded="false" />
             <element signature="e#12551#13027#0" expanded="false" />
-            <element signature="e#13072#14469#0" expanded="false" />
-            <element signature="e#14514#15614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -926,22 +915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/variable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="896" column="0" lean-forward="false" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/draw.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2286">
-          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/utils/data/dataloader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1485">
@@ -992,66 +965,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/gen_conditionSR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="8" column="12" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="192" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/serialization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/functional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/LRnet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2817">
-          <caret line="182" column="24" lean-forward="true" selection-start-line="182" selection-start-column="24" selection-end-line="182" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#5343#6617#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="449" column="51" lean-forward="false" selection-start-line="449" selection-start-column="40" selection-end-line="449" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#4969#6321#0" expanded="false" />
-            <element signature="e#6358#8113#0" expanded="false" />
-            <element signature="e#8149#9929#0" expanded="false" />
-            <element signature="e#10193#12509#0" expanded="false" />
-            <element signature="e#12551#13027#0" expanded="false" />
-            <element signature="e#13072#14469#0" expanded="false" />
-            <element signature="e#14514#15614#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/container.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
@@ -1068,75 +981,171 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/options.py">
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="120" column="139" lean-forward="false" selection-start-line="120" selection-start-column="139" selection-end-line="120" selection-end-column="139" />
-          <folding>
-            <element signature="e#41#2174#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="829">
-          <caret line="300" column="48" lean-forward="false" selection-start-line="300" selection-start-column="48" selection-end-line="300" selection-end-column="48" />
+        <state relative-caret-position="195">
+          <caret line="223" column="0" lean-forward="false" selection-start-line="223" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/conditionLRnet.py">
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/autograd/variable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="262" column="23" lean-forward="false" selection-start-line="262" selection-start-column="23" selection-end-line="262" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="896" column="0" lean-forward="false" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/conditionSRnet.py">
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1009">
-          <caret line="157" column="59" lean-forward="false" selection-start-line="157" selection-start-column="49" selection-end-line="157" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/dataFolder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="130" column="65" lean-forward="false" selection-start-line="130" selection-start-column="65" selection-end-line="130" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <element signature="e#250#1736#0" expanded="false" />
-            <element signature="e#1780#1847#1" expanded="false" />
-            <element signature="e#6412#6433#0" expanded="false" />
-            <element signature="e#7122#8396#0" expanded="false" />
-            <element signature="e#8450#11760#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="133">
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_style/gen_conditionLR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="76" column="51" lean-forward="false" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="51" />
+        <state relative-caret-position="2376">
+          <caret line="153" column="20" lean-forward="false" selection-start-line="153" selection-start-column="12" selection-end-line="153" selection-end-column="20" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_style/train_vaeSRnet.py">
+    <entry file="file://$PROJECT_DIR$/neural_style/conditionLRnet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="145" column="51" lean-forward="false" selection-start-line="145" selection-start-column="45" selection-end-line="145" selection-end-column="51" />
+        <state relative-caret-position="-1268">
+          <caret line="188" column="12" lean-forward="false" selection-start-line="188" selection-start-column="8" selection-end-line="188" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#15#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/gen_conditionSR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="147" column="11" lean-forward="false" selection-start-line="135" selection-start-column="4" selection-end-line="147" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/draw.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="93" column="31" lean-forward="false" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/LRnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3582">
+          <caret line="77" column="39" lean-forward="false" selection-start-line="77" selection-start-column="27" selection-end-line="77" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#5343#6617#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="301" column="52" lean-forward="false" selection-start-line="301" selection-start-column="52" selection-end-line="301" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/dataFolder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="644">
+          <caret line="163" column="81" lean-forward="false" selection-start-line="163" selection-start-column="25" selection-end-line="163" selection-end-column="81" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#250#1736#0" expanded="false" />
+            <element signature="e#1780#1847#1" expanded="false" />
+            <element signature="e#6479#6500#0" expanded="false" />
+            <element signature="e#7179#8453#0" expanded="false" />
+            <element signature="e#8507#11817#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/anaconda3/lib/python3.6/site-packages/torch/serialization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="191" column="0" lean-forward="false" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/train_SRnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="33" />
           <folding>
             <element signature="e#1#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/train_vaeSRnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="323" column="33" lean-forward="false" selection-start-line="323" selection-start-column="23" selection-end-line="323" selection-end-column="33" />
+          <folding>
+            <element signature="e#1#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/options.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="94" column="72" lean-forward="false" selection-start-line="94" selection-start-column="72" selection-end-line="94" selection-end-column="72" />
+          <folding>
+            <element signature="e#41#2174#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/conditionSRnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="858">
+          <caret line="197" column="27" lean-forward="false" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/test_vaeSRnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="88" lean-forward="false" selection-start-line="24" selection-start-column="88" selection-end-line="24" selection-end-column="88" />
+          <folding>
+            <element signature="e#1#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_style/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="387" column="74" lean-forward="false" selection-start-line="387" selection-start-column="74" selection-end-line="387" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#4969#6321#0" expanded="false" />
+            <element signature="e#6358#8113#0" expanded="false" />
+            <element signature="e#8149#9929#0" expanded="false" />
+            <element signature="e#10193#12509#0" expanded="false" />
+            <element signature="e#12551#13027#0" expanded="false" />
           </folding>
         </state>
       </provider>

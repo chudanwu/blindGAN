@@ -386,7 +386,8 @@ class EncoderBlock(torch.nn.Module):
         for i in range(downscale,0,-1):
             layer_in_c = out_c//(2**i)
             self.convlist.append(ConvLayer(layer_in_c, layer_in_c*2, kernel_size=3, stride=2))
-            self.normlist.append(create_norm_layer(layer_in_c*2,norm_mode=norm_mode))
+            if norm_mode is not None:
+                self.normlist.append(create_norm_layer(layer_in_c*2,norm_mode=norm_mode))
 
         self.relu = torch.nn.ReLU()
 
@@ -401,7 +402,7 @@ class EncoderBlock(torch.nn.Module):
 
 
 class DecoderBlock(torch.nn.Module):
-    def __init__(self, in_c,out_c,norm_mode='IN',upscale=2,deconv_mode='PS',upsample = 2):
+    def __init__(self, in_c,out_c,norm_mode='IN',upscale=2,deconv_mode='PS',upsample = 2,tanhoutput=True):
         # upscale means: double(determine by 'upsample=2') the width and height upscale times
         super(DecoderBlock, self).__init__()
         self.convlist = torch.nn.ModuleList()
@@ -422,7 +423,11 @@ class DecoderBlock(torch.nn.Module):
 
         lastlayer = []
         lastlayer += [ConvLayer(layer_out_c, out_c, kernel_size=3, stride=1)]
-        lastlayer += [torch.nn.Sigmoid()]
+        #if tanhoutput:
+        #    lastlayer += [torch.nn.Tanh()]
+        #else:
+        #    lastlayer += [torch.nn.Sigmoid()]
+
         self.lastlayer = torch.nn.Sequential(*lastlayer )
 
     def forward(self, x):

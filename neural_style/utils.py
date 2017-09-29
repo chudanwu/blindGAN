@@ -298,13 +298,13 @@ def print_params_num(net):
 
 # tensor -1-1 cxhxw to np 0-255 hxwxc
 def tensor2im_tanh(image_tensor, imtype=numpy.uint8):
-    image_numpy = image_tensor[0].clamp(0, 255).cpu().float().numpy()
+    image_numpy = image_tensor[0].clamp(-1, 1).cpu().float().numpy()
     image_numpy = (numpy.transpose(image_numpy, (1, 2, 0)) + 1) / 2.0 * 255.0
     return image_numpy.astype(imtype)
 
 # tensor 0-1 to 0-255
 def tensor2im(image_tensor, imtype=numpy.uint8):
-    image_numpy = image_tensor[0].cpu().float().numpy()
+    image_numpy = image_tensor[0].cpu().float().clamp(0, 1).numpy()
     image_numpy = numpy.transpose(image_numpy, (1, 2, 0)) * 255.0
     return image_numpy.astype(imtype)
 

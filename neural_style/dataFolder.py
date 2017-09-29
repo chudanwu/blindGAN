@@ -110,7 +110,8 @@ class vaeSRFolder(data.Dataset):
         self.gauss_max = opt.gauss_max
         self.img_size = opt.img_size
         self.mode= opt.color_mode
-        self.imgtrans = self.tranformimg(max_of_range=1,crop_size=None,norm_flag=False,mean=0.5,std=0.5)
+        self.tanhoutput = opt.tanhoutput
+        self.imgtrans = self.tranformimg(max_of_range=1,crop_size=self.img_size,mean=0.5,std=0.5)
         self.imgs = make_dataset(opt.train_dir)
         if len(self.imgs ) == 0:
             raise (RuntimeError("Found 0 images in subfolders of: " + opt.train_dir + "\n"
@@ -119,16 +120,16 @@ class vaeSRFolder(data.Dataset):
     def __getitem__(self, index):
         path = self.imgs[index]
         # training img--content
-        HR = load_HR_image(path,self.img_size,mode=self.mode)
+        HR = load_HR_image(path,mode=self.mode)
         blur_type = numpy.random.randint(2) #gauss[0] or motion[1] or gauss+motion[2]
         # target img--reference
         if self.gauss_max >= 0 and blur_type is not 1:
-            gauss = numpy.random.rand()*self.gauss_max
+            gauss = self.gauss_max * numpy.random.random_sample() #[0,gauss_max)
         else:
             gauss = 0
         if self.motion_len_max >0 and blur_type is not 0:
-            motion_len = numpy.random.randint(self.motion_len_max-1)+1
-            motion_angel = numpy.random.randint(self.motion_angle_max) #-0.5*self.motion_angel_max
+            motion_len = numpy.random.randint(self.motion_len_max-1)+1 # 1~max-1
+            motion_angel = numpy.random.randint(self.motion_angle_max)+1 # 1~max   -0.5*self.motion_angel_max
             motion_kernel, motion_anchor = filters.motion_kernel(motion_len, motion_angel)
             motion_x = motion_len*math.cos(math.radians(motion_angel))
             motion_y = motion_len*math.sin(math.radians(motion_angel))
@@ -149,12 +150,12 @@ class vaeSRFolder(data.Dataset):
     def __len__(self):
         return len(self.imgs)
 
-    def tranformimg(self,max_of_range=1,crop_size=None,norm_flag=False,mean=0.5,std=0.5):
+    def tranformimg(self,max_of_range=1,crop_size=None,mean=0.5,std=0.5):
         translist=[]
         if crop_size is not None:
             translist += [transforms.CenterCrop(crop_size)]
         translist += [transforms.ToTensor()]
-        if norm_flag:
+        if self.tanhoutput:
             if self.mode is 'RGB':
                 translist += [transforms.Normalize(mean,std)]
             elif self.mode is 'L':
