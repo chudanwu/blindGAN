@@ -1,0 +1,15 @@
+--- /home/wcd/Projects/Pytorch-examples/fast_neural_style/neural_style/models.py
++++ /home/wcd/Projects/Pytorch-examples/fast_neural_style/neural_style/models.py
+@@ -20,8 +20,10 @@
+ 
+         lastlayer = []
+         lastlayer += [ConvLayer(layer_out_c, out_c, kernel_size=3, stride=1)]
+-        #if tanhoutput:
+-        #    lastlayer += [torch.nn.Tanh()]
++
++        #input is -1~1,then output is -1~1,both 'tanhoutput'or'conv without activation' can be chosen
++        if tanhoutput:
++            lastlayer += [torch.nn.Tanh()]
+         #else:
+         #    lastlayer += [torch.nn.Sigmoid()]
+ 

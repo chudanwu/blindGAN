@@ -28,6 +28,7 @@ class blindVAE():
         self.isSeperate = isSeperate
         self.fromPretrain = fromPretrain
         self.opt = opt
+        self.opt.param_num=3
         if self.opt.cudaid is not None:
             torch.cuda.set_device(self.opt.cudaid)
 
@@ -55,7 +56,7 @@ class blindVAE():
 
         if self.isTrain:
             if self.fromPretrain:  # or opt.continue_train:
-                self.load_network(opt.seperate_model)
+                self.load_network(opt.pretrain_model)
             self.old_lr = opt.lr
 
             self.netSR.train()
@@ -68,6 +69,7 @@ class blindVAE():
             if opt.optimize_mode is not 'admm':
                 raise ValueError('optimize_mode: %s undifine'%(opt.optimize_mode))
         else:
+            self.load_network(opt.pretrain_model)
             self.netP.eval()
             self.netSR.eval()
 
@@ -82,30 +84,8 @@ class blindVAE():
         input_p = input[2]
         self.tensorLR.resize_(input_lr.size()).copy_(input_lr)
         self.tensorHR.resize_(input_hr.size()).copy_(input_hr)
-        input_p = self.create_condition(input_p)
         self.tensorP.resize_(input_p.size()).copy_(input_p)
 
-    def create_condition(self, batch_params):  # n,[g,m_x,m_y] unnormalize=> n,3,h,w normalize and pixelwise
-        if self.opt.batch_size is not batch_params.shape[0]:
-            print('error!:batch size is not consistance with patch-params')
-        condition_param = torch.zeros((self.opt.batch_size, self.opt.param_num, self.tensorLR.shape[2], self.tensorLR.shape[3]))
-        for i in range(batch_params.shape[0]):  # in each batch
-            params = batch_params[i]
-            gauss = params[0]
-            motion_x = params[1]
-            motion_y = params[2]
-            if gauss is None or gauss is 0:
-                gauss = 0
-            if motion_x is 0 and motion_y is 0:
-                motion_x = 0
-                motion_y = 0
-            gauss = gauss / self.opt.gauss_max
-            motion_x = motion_x / self.opt.motion_x_max
-            motion_y = motion_y / self.opt.motion_y_max
-            condition_param[i] = torch.from_numpy(np.array([gauss, motion_x, motion_y])).unsqueeze(1).unsqueeze(
-                1).expand(self.opt.param_num, self.tensorLR.shape[2], self.tensorLR.shape[3]).contiguous()
-        # print(condition_param.shape)
-        return condition_param.contiguous()
 
     def forward(self):
 
@@ -168,6 +148,8 @@ class blindVAE():
             lr = tensor2im(self.tensorLR)
             hr = tensor2im(self.tensorHR)
             sr = tensor2im(self.SR.data)
+
+
         return OrderedDict([('lr', lr), ('hr', hr),('sr', sr)])
 
 
@@ -221,6 +203,9 @@ class blindVAE():
         self.old_lr = lr
 
 def train(isTrain=True,isSeperate=True,fromPretrain=False):
+    # isTrain => update lr
+    # isSeperate => different forward way
+    # fromPretrain => load model while traing/validate
     opt = vaeSROption()
     init_lr = opt.lr
     randomblur_data = vaeSRFolder(opt)
@@ -236,8 +221,8 @@ def train(isTrain=True,isSeperate=True,fromPretrain=False):
     total_steps = 0
     best_loss = None
 
-    # seperate training
-    if not fromPretrain:
+    # seperate training: update lr, seperate way, not/is from pretrain
+    if isSeperate:
         print("-------------Seperate training---------------")
         for epoch in range(1, opt.niter + opt.niter_decay + 1):
             epoch_start_time = time.time()
@@ -321,4 +306,4 @@ def train(isTrain=True,isSeperate=True,fromPretrain=False):
             model.update_learning_rate()
 
 if __name__ == "__main__":
-    train(isTrain=True,isSeperate=False,fromPretrain=True)
+    train(isTrain=True,isSeperate=True,fromPretrain=False)

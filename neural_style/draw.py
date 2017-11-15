@@ -85,9 +85,9 @@ import numpy as np
 import time
 
 class Visualizer():
-    def __init__(self,name):
+    def __init__(self,name,id=1):
         self.vis = visdom.Visdom(env='wcd')
-        self.display_id = 1
+        self.display_id = id
         self.name = name
 
     # |visuals|: dictionary of images to display or save

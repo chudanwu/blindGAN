@@ -20,7 +20,7 @@ def is_image_file(filename):
 
 
 # load img from floder using filename
-def load_HR_image(filename, size=None, mode='RGB'):
+def load_HR_image(filename, size=None, mode='RGB',centercrop=None,randomcrop=None):
     # input: img path
     # output: PIL img
     if mode is 'Y':
@@ -35,7 +35,14 @@ def load_HR_image(filename, size=None, mode='RGB'):
 
     h, w = img.size
     img = img.crop((0, 0, h - h % 4, w - w % 4))
-
+    if centercrop is not None:
+        h, w = img.size
+        img = img.crop((h//2-centercrop//2,w//2-centercrop//2,h//2+centercrop//2,w//2+centercrop//2))
+    if randomcrop is not None:
+        h, w = img.size
+        hstart = numpy.random.randint(h-randomcrop)
+        wstart = numpy.random.randint(w-randomcrop)
+        img = img.crop((hstart, wstart, hstart+randomcrop, wstart+randomcrop))
     if size is not None:
         img = img.resize((size, size), Image.ANTIALIAS)
     return img
@@ -94,6 +101,21 @@ def HR2LR(img,motion_kernel=None,motion_anchor=None,gauss=None,scale=None):
         img = img.resize((int(img.size[0] / scale), int(img.size[1] / scale)), Image.ANTIALIAS)
     return img
 
+import cv2
+def HRnp2LRnp(img,gauss_len=0,gauss_sig=0,motion_angle=0,motion_len=0,defocus_rad=0,scale=None):
+    if gauss_sig > 0:
+        # gauss
+        img = cv2.GaussianBlur(img,(gauss_len,gauss_len),gauss_sig)
+    elif motion_len > 0 :
+        # motion
+        motion_kernel,motion_anchor = filters.motion_kernel_matlab(length=motion_len,angle=motion_angle)
+        if motion_len>1:
+            #print([kernel,anchor])
+            img = cv2.filter2D(img,-1, motion_kernel,anchor=motion_anchor)
+    elif defocus_rad > 0:
+        defocus_kernel = filters.defocus_kernel_matlab(defocus_rad)
+        img = cv2.filter2D(img,-1,defocus_kernel)
+    return img
 
 class trainingFolder(data.Dataset):
 
@@ -296,15 +318,26 @@ def print_params_num(net):
     print(net)
     print('Total number of parameters: %d' % num_params)
 
-# tensor -1-1 cxhxw to np 0-255 hxwxc
+# tensor -1-1 bsxcxhxw to np 0-255 hxwxc
 def tensor2im_tanh(image_tensor, imtype=numpy.uint8):
     image_numpy = image_tensor[0].clamp(-1, 1).cpu().float().numpy()
     image_numpy = (numpy.transpose(image_numpy, (1, 2, 0)) + 1) / 2.0 * 255.0
     return image_numpy.astype(imtype)
 
-# tensor 0-1 to 0-255
+# tensor 0-1 bsxcxhxw to 0-255 hxwxc
 def tensor2im(image_tensor, imtype=numpy.uint8):
     image_numpy = image_tensor[0].cpu().float().clamp(0, 1).numpy()
     image_numpy = numpy.transpose(image_numpy, (1, 2, 0)) * 255.0
     return image_numpy.astype(imtype)
 
+
+def gradient_matlab(img):
+    # input : Image/nparray 0~255
+    changeflag = isinstance(img, Image.Image)
+    if changeflag:
+        img = numpy.array(img)
+    dx, dy = numpy.gradient(img / 255)
+    img = (numpy.sqrt(dx ** 2 + dy ** 2) * 255).astype(numpy.uint8)
+    if changeflag:
+        img = Image.fromarray(img)
+    return img

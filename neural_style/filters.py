@@ -2,10 +2,54 @@ import math
 import PIL
 import cv2
 import numpy as np
+import sys
 
+
+def motion_kernel_matlab(angle=0, length=0):
+    length = max(1, length)
+
+    half = (length - 1) // 2
+    # print(length)
+    phi = math.radians(angle % 180)
+    cosphi = math.cos(phi)
+    sinphi = math.sin(phi)
+    xsign = np.sign(cosphi)
+    linewdt = 1
+    eps = sys.float_info.epsilon
+    # for 0,90
+
+    sx = np.fix(half * cosphi + linewdt * xsign - length * eps)
+    sy = np.fix(half * sinphi + linewdt - length * eps)
+    # print([sx,sy])
+    [x, y] = np.meshgrid(np.arange(0, sx + xsign, xsign), np.arange(0, sy + 1, 1))
+    # print(x)
+    # print(y)
+    # define shortest distance from a pixel to the rotated line
+    dist2line = (y * cosphi - x * sinphi)  # distance perpendicular to the line
+    rad = np.sqrt(x ** 2 + y ** 2)
+    # find points beyond the line's end-point but within the line width
+    lastpix = (rad >= half) & (np.abs(dist2line) <= linewdt)
+    # distance to the line's end-point parallel to the line
+    x2lastpix = half - np.abs((x[lastpix] + dist2line[lastpix] * sinphi) / cosphi)
+    dist2line[lastpix] = np.sqrt(dist2line[lastpix] ** 2 + x2lastpix ** 2)
+    dist2line = linewdt + eps - np.abs(dist2line)
+    dist2line[dist2line < 0] = 0
+    # print(dist2line)
+    dh = dist2line.shape[0]
+    dw = dist2line.shape[1]
+    h = np.zeros((dh * 2 - 1, dw * 2 - 1))
+    # % unfold half-matrix to the full size
+    h[:dh, :dw] = np.rot90(dist2line, k=2)
+    h[dh - 1:, dw - 1:] = dist2line
+    h = h / (h.sum() + eps * length * length)
+
+    if cosphi > 0:
+        h = np.flipud(h)
+
+    return h,(-1,-1)
 
 # 生成卷积核和锚点
-def motion_kernel(length, angle):
+def motion_kernel(length=0, angle=0):
     #print([length,angle])
     EPS = np.finfo(float).eps
     alpha = (angle - math.floor(angle / 180) * 180) / 180 * math.pi
@@ -56,7 +100,9 @@ def motion_kernel(length, angle):
     return kernel, anchor
 
 
-def motion_kernel2(L, theta):
+def motion_kernel2(length=0, angle=0):
+    L=length
+    theta=angle
     kernel = np.zeros([L, L])
     x = np.arange(0, L, 1) - int(L / 2)
     X, Y = np.meshgrid(x, x)
@@ -182,6 +228,47 @@ def motion_blur(img,kernel,anchor=(-1,-1)):
 def gauss_blur(img,sigma,kernel=5):
     img =  cv2.GaussianBlur(np.array(img),(kernel,kernel),sigma)
     return PIL.Image.fromarray(img)
+
+def defocus_kernel_matlab(rad = 3):
+    if rad<=0.5:
+        kernel=np.ones((1,1),dtype=np.float32)
+    else:
+        crad  = int(math.ceil(rad-0.5))
+        kernel = np.zeros((crad*2+1,crad*2+1),dtype = np.float32)
+        crod = np.arange(-crad, crad+1, 1)
+        [x,y]=np.meshgrid(crod,crod)
+        biggerxid = np.abs(x)>np.abs(y)
+        maxxy = np.abs(y)
+        minxy = np.abs(x)
+        maxxy[biggerxid]=np.abs(x)[biggerxid]
+        minxy[biggerxid]=np.abs(y)[biggerxid]
+
+        id1 = (rad**2<(maxxy+0.5)**2+(minxy-0.5)**2)
+        m1 = id1*(minxy-0.5) + np.sqrt( (1-id1)*(rad**2-(maxxy+0.5)**2))
+        id2 = (rad**2>(maxxy-0.5)**2+(minxy+0.5)**2)
+        m2 = id2*(minxy+0.5) + np.sqrt( (1-id2)*(rad**2-(maxxy-0.5)**2))
+        id3 = (rad**2 < (maxxy+0.5)**2 + (minxy+0.5)**2)
+        id4 = (rad**2 > (maxxy-0.5)**2 + (minxy-0.5)**2)
+        sgrid = (rad**2*(0.5*(np.arcsin(m2/rad) - np.arcsin(m1/rad)) + 0.25*(np.sin(2*np.arcsin(m2/rad)) - np.sin(2*np.arcsin(m1/rad)))) - (maxxy-0.5)*(m2-m1) + (m1-minxy+0.5))
+        id = (id3 & id4) |((minxy==0)&(maxxy-0.5 < rad)&(maxxy+0.5>=rad))
+        sgrid = sgrid * id
+        sgrid = sgrid +((maxxy+0.5)**2 + (minxy+0.5)**2 < rad**2)
+        sgrid[crad,crad] = min(math.pi*rad**2,math.pi/2)
+        if ((crad>0) and (rad > crad-0.5) and (rad**2 < (crad-0.5)**2+0.25)):
+            m1  = np.sqrt(rad**2 - (crad - 0.5)**2)
+            m1n = m1/rad;
+            sg0 = 2*(rad**2*(0.5*np.arcsin(m1n) + 0.25*np.sin(2*np.arcsin(m1n)))-m1*(crad-0.5))
+            sgrid[2*crad+1,crad+1] = sg0
+            sgrid[crad+1,2*crad+1] = sg0
+            sgrid[crad+1,1]        = sg0
+            sgrid[1,crad+1]        = sg0
+            sgrid[2*crad,crad+1]   = sgrid[2*crad,crad+1] - sg0
+            sgrid[crad+1,2*crad]   = sgrid[crad+1,2*crad] - sg0
+            sgrid[crad+1,2]        = sgrid[crad+1,2]      - sg0
+            sgrid[2,crad+1]        = sgrid[2,crad+1]      - sg0
+        sgrid[crad,crad] = min(sgrid[crad,crad],1);
+        kernel=sgrid/sgrid.sum()
+    return kernel
 
 def psf_blur(origimg,psfnp):
 

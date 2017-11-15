@@ -52,13 +52,11 @@ class GNet(torch.nn.Module):
 
 
 class condition_SRNet(torch.nn.Module):
-    def __init__(self,channelofparams=3,mode='L',resblock_num=18,skiplayer = 1,norm_mode = 'IN',deconv_mode='US',
+    def __init__(self,channelofparams=4,channelofimg=1,resblock_num=18,skiplayer = 1,norm_mode = 'IN',deconv_mode='US',
                  bottle_scale=2,drop_out=None,avtivate_mode='relu'):
         super(condition_SRNet, self).__init__()
-        if mode is 'Y' or mode is 'L':
-            channel = 1+channelofparams
-        else :
-            channel = 3+channelofparams
+        assert channelofimg >= 1 and channelofimg <= 4
+        channel = channelofimg+channelofparams
         # Initial convolution layers
 
         reschannel = 64
@@ -100,15 +98,12 @@ class condition_SRNet(torch.nn.Module):
         return y
 
 class condition_LRNet(torch.nn.Module):
-    def __init__(self,channelofparams,mode='L',resblock_num=8,norm_mode = 'IN',drop_out=None,avtivate_mode='leakyrelu'):
+    def __init__(self,channelofparams=4,channelofimg=1,resblock_num=8,norm_mode = 'IN',drop_out=None,avtivate_mode='leakyrelu'):
         super(condition_LRNet,self).__init__()
-        if mode is 'Y' or mode is 'L':
-            channel = 1
-        else :
-            channel = 3
+        assert channelofimg >=1 and channelofimg <= 4
         reschannel = 64
         # Initial convolution layers
-        model = [ConvLayer(channel, reschannel, 7, 1),
+        model = [ConvLayer(channelofimg, reschannel, 7, 1),
                  torch.nn.BatchNorm2d(reschannel),
                  torch.nn.LeakyReLU(0.2, True)]
 
